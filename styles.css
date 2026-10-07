@@ -1,3 +1,28 @@
+/* ==========================================================================
+   CampusPass — styles.css
+   Organização do arquivo:
+      1. Tokens do design system (cores, raios, sombra, tema escuro)
+      2. Base (reset, texto, títulos, foco)
+      3. Barra de navegação
+      4. Botões
+      5. Campos e formulários
+      6. Selos (tags)
+      7. Cards genéricos
+      8. Página inicial (hero, lista de eventos)
+      9. Login e cadastro
+     10. Página de compra
+     11. Janela de confirmação e cartão de ingresso
+     12. Rodapé
+     13. Responsivo (telas pequenas)
+     14. Movimento reduzido
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. TOKENS DO DESIGN SYSTEM
+   Para mudar uma cor ou um raio no site inteiro, mude aqui.
+   ========================================================================== */
+
 :root {
   /* Cores da marca */
   --violet: #5B2EFF;   /* Pass Violeta  — primária  */
@@ -7,6 +32,7 @@
   --paper:  #F6F4FF;   /* Papel         — fundo     */
   --green:  #12805C;   /* Confirmado    — sucesso   */
 
+  /* Cores de uso (mudam no tema escuro) */
   --bg:      var(--paper);
   --surface: #FFFFFF;
   --text:    var(--night);
@@ -15,12 +41,17 @@
   --soft:    #ECE8FF;
   --link:    #5B2EFF;
   --err:     #D8264A;
+
+  /* Raios de borda */
   --r1: 8px;
   --r2: 14px;
   --r3: 24px;
+
+  /* Sombra violeta suave */
   --shadow: 0 8px 24px rgba(91, 46, 255, .18);
 }
 
+/* Tema escuro: os mesmos tokens, com outros valores */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg:      #120E27;
@@ -34,6 +65,11 @@
     --shadow:  0 8px 24px rgba(0, 0, 0, .45);
   }
 }
+
+
+/* ==========================================================================
+   2. BASE
+   ========================================================================== */
 
 * {
   box-sizing: border-box;
@@ -57,21 +93,29 @@ h1 { font-size: clamp(2.25rem, 6vw, 3rem); }
 h2 { font-size: 2rem; }
 h3 { font-size: 1.375rem; }
 
+/* Anel amarelo quando um item recebe foco pelo teclado */
 :focus-visible {
   outline: 3px solid var(--yellow);
   outline-offset: 2px;
 }
 
+/* Largura máxima do conteúdo, centralizado */
 .wrap {
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 16px;
 }
 
+/* Texto pequeno e discreto */
 .small {
   font-size: 13px;
   color: var(--muted);
 }
+
+
+/* ==========================================================================
+   3. BARRA DE NAVEGAÇÃO
+   ========================================================================== */
 
 .nav {
   position: sticky;
@@ -93,6 +137,7 @@ h3 { font-size: 1.375rem; }
   display: flex;
 }
 
+/* No tema escuro o logo ganha um fundo branco, porque o texto dele é preto */
 @media (prefers-color-scheme: dark) {
   .brand {
     background: #FFFFFF;
@@ -123,6 +168,7 @@ h3 { font-size: 1.375rem; }
   gap: 8px;
 }
 
+/* Botão hambúrguer (só aparece no celular, veja a seção Responsivo) */
 .burger {
   display: none;
   width: 44px;
@@ -135,6 +181,11 @@ h3 { font-size: 1.375rem; }
   font-size: 20px;
   cursor: pointer;
 }
+
+
+/* ==========================================================================
+   4. BOTÕES
+   ========================================================================== */
 
 .btn {
   display: inline-flex;
@@ -154,6 +205,7 @@ h3 { font-size: 1.375rem; }
   width: 100%;
 }
 
+/* Primário */
 .btn-primary {
   background: var(--violet);
   color: #FFFFFF;
@@ -163,27 +215,37 @@ h3 { font-size: 1.375rem; }
   background: #4A1FE6;
 }
 
+/* Secundário */
 .btn-sec {
   background: var(--soft);
   color: var(--link);
 }
 
+/* Fantasma */
 .btn-ghost {
   background: none;
   color: var(--link);
 }
 
+/* Amarelo (usado no hero e no rodapé) */
 .btn-yellow {
   background: var(--yellow);
   color: var(--night);
 }
 
+/* Desabilitado */
 .btn:disabled {
   background: #B8A6FF;
   color: #FFFFFF;
   cursor: not-allowed;
 }
 
+
+/* ==========================================================================
+   5. CAMPOS E FORMULÁRIOS
+   ========================================================================== */
+
+/* Campo de texto */
 .in {
   width: 100%;
   height: 44px;
@@ -201,6 +263,7 @@ h3 { font-size: 1.375rem; }
   box-shadow: 0 0 0 3px rgba(91, 46, 255, .2);
 }
 
+/* Rótulo + campo + mensagens */
 .field {
   display: flex;
   flex-direction: column;
@@ -217,6 +280,7 @@ h3 { font-size: 1.375rem; }
   color: var(--muted);
 }
 
+/* Mensagem de erro embaixo do campo (aparece com .field.err) */
 .msg {
   display: none;
   font-size: 13px;
@@ -235,23 +299,27 @@ h3 { font-size: 1.375rem; }
   display: none;
 }
 
+/* Mensagem de erro geral do formulário */
 .err-top {
   display: none;
   font-size: 13px;
   color: var(--err);
 }
 
+/* Campo + botão lado a lado (senha, código Pix) */
 .pw {
   display: flex;
   gap: 8px;
 }
 
+/* Duas colunas iguais */
 .two {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
+/* Formulário em grade de 6 colunas: .s2 ocupa 2, .s3 ocupa 3 etc. */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -263,6 +331,11 @@ h3 { font-size: 1.375rem; }
 .s4 { grid-column: span 4; }
 .s6 { grid-column: span 6; }
 
+
+/* ==========================================================================
+   6. SELOS (TAGS)
+   ========================================================================== */
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -273,6 +346,7 @@ h3 { font-size: 1.375rem; }
   font-weight: 700;
 }
 
+/* Bolinha antes do texto */
 .tag::before {
   content: "";
   width: 6px;
@@ -281,9 +355,14 @@ h3 { font-size: 1.375rem; }
   background: currentColor;
 }
 
-.tag.coral  { background: var(--coral);  color: #FFFFFF;      }
-.tag.yellow { background: var(--yellow); color: var(--night); }
-.tag.green  { background: var(--green);  color: #FFFFFF;      } 
+.tag.coral  { background: var(--coral);  color: #FFFFFF;      } /* urgência */
+.tag.yellow { background: var(--yellow); color: var(--night); } /* destaque */
+.tag.green  { background: var(--green);  color: #FFFFFF;      } /* sucesso  */
+
+
+/* ==========================================================================
+   7. CARDS GENÉRICOS
+   ========================================================================== */
 
 .card {
   padding: 24px;
@@ -292,6 +371,12 @@ h3 { font-size: 1.375rem; }
   background: var(--surface);
 }
 
+
+/* ==========================================================================
+   8. PÁGINA INICIAL
+   ========================================================================== */
+
+/* ---- Hero em formato de ingresso (recortes redondos nas laterais) ---- */
 .hero {
   position: relative;
   overflow: hidden;
@@ -330,6 +415,7 @@ h3 { font-size: 1.375rem; }
   opacity: .9;
 }
 
+/* ---- Título da seção ---- */
 .sec-head {
   display: flex;
   justify-content: space-between;
@@ -337,12 +423,14 @@ h3 { font-size: 1.375rem; }
   margin-bottom: 24px;
 }
 
+/* ---- Grade de cards de evento ---- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
 }
 
+/* ---- Card de evento ---- */
 .ev {
   display: flex;
   flex-direction: column;
@@ -353,12 +441,14 @@ h3 { font-size: 1.375rem; }
   transition: transform .25s ease, box-shadow .25s ease;
 }
 
+/* O card sobe quando o mouse passa (ou quando recebe foco pelo teclado) */
 .ev:hover,
 .ev:focus-within {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(91, 46, 255, .32);
 }
 
+/* Topo com gradiente e selos */
 .ev-top {
   display: flex;
   flex-wrap: wrap;
@@ -377,6 +467,7 @@ h3 { font-size: 1.375rem; }
   padding: 24px;
 }
 
+/* Preço + botão Comprar, sempre no pé do card */
 .ev-foot {
   display: flex;
   justify-content: space-between;
@@ -390,6 +481,12 @@ h3 { font-size: 1.375rem; }
   font: 800 1.375rem "Bricolage Grotesque", sans-serif;
 }
 
+
+/* ==========================================================================
+   9. LOGIN E CADASTRO
+   ========================================================================== */
+
+/* Tela dividida do login: arte à esquerda, formulário à direita */
 .auth {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -427,6 +524,12 @@ h3 { font-size: 1.375rem; }
   max-width: 400px;
 }
 
+
+/* ==========================================================================
+   10. PÁGINA DE COMPRA
+   ========================================================================== */
+
+/* ---- Cabeçalho do evento (arte + informações) ---- */
 .ev-head {
   display: grid;
   grid-template-columns: 240px 1fr;
@@ -447,6 +550,7 @@ h3 { font-size: 1.375rem; }
   padding: 24px;
 }
 
+/* ---- Duas colunas: ingressos/pagamento à esquerda, resumo à direita ---- */
 .cols {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -454,6 +558,7 @@ h3 { font-size: 1.375rem; }
   gap: 24px;
 }
 
+/* ---- Linha de ingresso (Pista, VIP, Camarote) ---- */
 .row {
   display: flex;
   justify-content: space-between;
@@ -469,11 +574,13 @@ h3 { font-size: 1.375rem; }
   display: block;
 }
 
+/* Linha selecionada (quantidade maior que zero) */
 .row.sel {
   border-color: var(--violet);
   background: var(--soft);
 }
 
+/* ---- Contador − 0 + ---- */
 .step {
   display: inline-flex;
   align-items: center;
@@ -505,6 +612,7 @@ h3 { font-size: 1.375rem; }
   font-weight: 700;
 }
 
+/* ---- Seletor Pix / Cartão / Boleto ---- */
 .seg {
   display: flex;
   gap: 4px;
@@ -530,6 +638,7 @@ h3 { font-size: 1.375rem; }
   color: #FFFFFF;
 }
 
+/* ---- Painéis de pagamento ---- */
 .pane {
   display: flex;
   flex-direction: column;
@@ -552,6 +661,7 @@ h3 { font-size: 1.375rem; }
   background: #FFFFFF;
 }
 
+/* ---- Cartão de crédito (prévia que se preenche ao digitar) ---- */
 .cc {
   display: flex;
   flex-direction: column;
@@ -570,6 +680,7 @@ h3 { font-size: 1.375rem; }
   color: #FFFFFF;
 }
 
+/* Selo com os dois círculos da bandeira */
 .cc-brand {
   display: flex;
   align-items: center;
@@ -597,7 +708,6 @@ h3 { font-size: 1.375rem; }
 .cc-num {
   font-size: 1.125rem;
   letter-spacing: .1em;
-  white-space: pre;
 }
 
 .cc-foot {
@@ -606,6 +716,7 @@ h3 { font-size: 1.375rem; }
   font-size: 13px;
 }
 
+/* ---- Resumo do pedido ---- */
 .sum {
   position: sticky;
   top: 84px;
@@ -623,6 +734,11 @@ h3 { font-size: 1.375rem; }
   border-top: 1px solid var(--line);
   font: 800 1.375rem "Bricolage Grotesque", sans-serif;
 }
+
+
+/* ==========================================================================
+   11. JANELA DE CONFIRMAÇÃO E CARTÃO DE INGRESSO
+   ========================================================================== */
 
 dialog {
   width: calc(100% - 32px);
@@ -651,6 +767,7 @@ dialog .btn {
   margin-top: 24px;
 }
 
+/* Lista de ingressos dentro da janela */
 .tks {
   display: flex;
   flex-direction: column;
@@ -659,6 +776,7 @@ dialog .btn {
   text-align: left;
 }
 
+/* ---- Cartão de ingresso ---- */
 .tk {
   position: relative;
   overflow: hidden;
@@ -679,6 +797,7 @@ dialog .btn {
   opacity: .85;
 }
 
+/* Linha divisória com os recortes redondos nas pontas */
 .tk-line {
   position: relative;
   height: 0;
@@ -718,6 +837,10 @@ dialog .btn {
 }
 
 
+/* ==========================================================================
+   12. RODAPÉ
+   ========================================================================== */
+
 .foot {
   margin-top: 64px;
   padding: 48px 0 24px;
@@ -741,6 +864,7 @@ dialog .btn {
   color: #FFFFFF;
 }
 
+/* Fundo branco atrás do logo (o texto do logo é preto) */
 .foot .chip {
   display: inline-block;
   margin-bottom: 12px;
@@ -771,19 +895,31 @@ dialog .btn {
   font-size: 13px;
 }
 
+
+/* ==========================================================================
+   13. RESPONSIVO
+   Estas regras vêm por último de propósito: elas sobrescrevem as regras
+   normais quando a tela é pequena.
+   ========================================================================== */
+
+/* Celular e tablet pequeno */
 @media (max-width: 860px) {
+  /* Login: some a arte, fica só o formulário */
   .auth           { grid-template-columns: 1fr; }
   .auth-art       { display: none; }
 
+  /* Cadastro: todos os campos ocupam a linha inteira */
   .s2, .s3, .s4   { grid-column: span 6; }
 
+  /* Compra: resumo vai para baixo dos ingressos */
   .cols           { grid-template-columns: 1fr; }
 
   .hero           { padding: 48px 24px; }
 }
 
-
+/* Celular */
 @media (max-width: 760px) {
+  /* Barra de navegação: aparece o hambúrguer e o menu abre embaixo */
   .burger {
     display: block;
   }
@@ -806,16 +942,24 @@ dialog .btn {
     flex: 1;
   }
 
+  /* Rodapé em duas colunas */
   .foot-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
 
+/* Celular pequeno */
 @media (max-width: 600px) {
   .ev-head {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ==========================================================================
+   14. MOVIMENTO REDUZIDO
+   Para quem desativou animações no sistema, as transições ficam desligadas.
+   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   * {

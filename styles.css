@@ -34,7 +34,7 @@
 
   /* Cores de uso (mudam no tema escuro) */
   --bg:      var(--paper);
-  --surface: #FFFFFF;
+  --surface: #F0F0F0;
   --text:    var(--night);
   --muted:   #6B6485;
   --line:    #E2DDF5;

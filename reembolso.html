@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>try{var t=localStorage.getItem('campuspass_tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Reembolso · Campus Pass</title>
+</head>
+<body data-page="reembolso">
+<main class="wrap">
+
+  <a class="seta-voltar" href="index.html" aria-label="Voltar para o início" title="Voltar para o início">←</a>
+
+  <header class="reem-intro">
+    <div class="reem-texto">
+      <span class="tag yellow">Reembolso</span>
+      <h1>Desistiu ou o evento mudou? A gente <mark class="marca">devolve</mark>.</h1>
+      <p class="lead">
+        Veja quando você tem direito ao reembolso e peça pelo formulário, em poucos passos.
+      </p>
+      <div class="trab-cta">
+        <a class="btn btn-primary" href="#pedido">Pedir reembolso</a>
+        <a class="btn btn-sec" href="#direitos">Quando tenho direito?</a>
+      </div>
+    </div>
+
+    <div class="reem-selo" role="img" aria-label="7 dias para desistir da compra, com devolução integral">
+      <b>7</b>
+      <span>dias para desistir da compra, com devolução integral</span>
+    </div>
+  </header>
+
+  <section class="page-section" id="direitos">
+    <div class="sec-head">
+      <h2>Quando você tem direito</h2>
+    </div>
+    <div class="grid">
+      <article class="card valor">
+        <h3>Você desistiu da compra</h3>
+        <p class="small">
+          Compras feitas pela internet podem ser desfeitas em até <b>7 dias</b>, contados do recebimento
+          do ingresso, com devolução integral dos valores pagos, inclusive taxas.
+          Veja a <a href="termos.html#t6">cláusula 6 dos Termos</a>.
+        </p>
+      </article>
+      <article class="card valor">
+        <h3>O evento foi cancelado</h3>
+        <p class="small">
+          Se o Organizador cancelar o evento, você pode exigir a <b>restituição imediata e integral</b>
+          do valor pago.
+        </p>
+      </article>
+      <article class="card valor">
+        <h3>O evento foi adiado ou mudou muito</h3>
+        <p class="small">
+          Se a data, o local ou outro ponto importante mudar por responsabilidade do Organizador, você escolhe:
+          usar o ingresso na nova data, receber o valor de volta ou ter um abatimento proporcional do preço.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="page-section" id="como-pedir">
+    <div class="sec-head">
+      <h2>Como pedir</h2>
+    </div>
+    <div class="passos">
+      <article class="card">
+        <span class="passo-num">1</span>
+        <h3>Escolha o ingresso</h3>
+        <p class="small">Selecione, entre os seus ingressos, o que você quer devolver.</p>
+      </article>
+      <article class="card">
+        <span class="passo-num">2</span>
+        <h3>Diga o motivo</h3>
+        <p class="small">Desistência, evento cancelado ou adiado: marque o que se aplica ao seu caso.</p>
+      </article>
+      <article class="card">
+        <span class="passo-num">3</span>
+        <h3>Envie o pedido</h3>
+        <p class="small">Conferimos o prazo e o motivo e analisamos a sua solicitação.</p>
+      </article>
+      <article class="card">
+        <span class="passo-num">4</span>
+        <h3>Receba a resposta</h3>
+        <p class="small">Avisamos pelo email cadastrado sobre a devolução do valor.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="page-section" id="devolucao">
+    <div class="sec-head">
+      <h2>Como o dinheiro volta</h2>
+    </div>
+    <div class="tabela">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Forma de pagamento</th><th scope="col">Como é devolvido</th><th scope="col">Prazo</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Pix</th><td>Devolvido para a conta que fez o pagamento</td><td><mark class="todo">[prazo]</mark></td></tr>
+            <tr><th scope="row">Cartão de crédito</th><td>Estorno na fatura do cartão, conforme a operadora</td><td><mark class="todo">[prazo]</mark></td></tr>
+            <tr><th scope="row">Boleto</th><td>Entramos em contato para combinar a devolução</td><td><mark class="todo">[prazo]</mark></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" id="pedido">
+    <div class="sec-head">
+      <h2>Pedir reembolso</h2>
+    </div>
+
+    <div class="card reem-info" id="reemInfo" hidden></div>
+
+    <div class="card" id="reemCard">
+      <form id="f" novalidate>
+        <div class="form-grid">
+          <div class="field s6">
+            <label for="rIngresso">Ingresso</label>
+            <select class="in" id="rIngresso" required></select>
+            <span class="hint">Aqui aparecem os ingressos comprados neste navegador. Comprou em outro aparelho? Escolha “Outro ingresso” e conte qual é nos detalhes.</span>
+            <span class="msg">Escolha um ingresso</span>
+          </div>
+          <div class="field s3">
+            <label for="rMotivo">Motivo</label>
+            <select class="in" id="rMotivo" required>
+              <option value="">Escolha...</option>
+              <option value="desistencia">Desisti da compra (até 7 dias)</option>
+              <option value="cancelado">O evento foi cancelado</option>
+              <option value="alterado">O evento foi adiado ou alterado</option>
+              <option value="outro">Outro motivo</option>
+            </select>
+            <span class="msg">Escolha um motivo</span>
+          </div>
+          <div class="field s3">
+            <label for="rEmail">Email para a resposta</label>
+            <input class="in" type="email" id="rEmail" placeholder="exemplo@mail.com" autocomplete="email" required>
+            <span class="msg">Email inválido</span>
+          </div>
+          <div class="field s6">
+            <label for="rDetalhes">Detalhes <span class="hint">(opcional)</span></label>
+            <textarea class="in" id="rDetalhes" rows="4" maxlength="1500"
+                      placeholder="Conte o que aconteceu. Se escolheu “Outro ingresso”, informe o evento e o código."></textarea>
+            <span class="msg">Informe qual é o ingresso</span>
+          </div>
+        </div>
+        <p class="small" style="margin-top:16px">
+          Usamos seus dados só para analisar este pedido. Veja a
+          <a href="termos.html#parte-2" target="_blank" rel="noopener" style="color:var(--link)">Política de Privacidade</a>.
+        </p>
+        <div style="margin-top:16px">
+          <button class="btn btn-primary" type="submit">Enviar pedido</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <aside class="card ing-ajuda">
+    <div>
+      <h3>Ainda com dúvida?</h3>
+      <p class="small">Veja as perguntas frequentes ou fale direto com o suporte.</p>
+    </div>
+    <div class="trab-cta">
+      <a class="btn btn-sec" href="central-de-suporte.html#faq">Perguntas frequentes</a>
+      <a class="btn btn-primary" href="central-de-suporte.html#contato">Falar com o suporte</a>
+    </div>
+  </aside>
+
+</main>
+<script src="site.js"></script>
+</body>
+</html>

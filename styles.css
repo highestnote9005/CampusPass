@@ -25,12 +25,12 @@
 
 :root {
   /* Cores da marca */
-  --violet: #1E90FF;   /* Azul principal — primária  */
-  --coral:  #FF4F8B;   /* Rolê Coral    — destaque  */
-  --yellow: #FFEB3B;   /* Pista Amarelo — selo e foco */
-  --night:  #1B1536;   /* Noite         — texto     */
-  --paper:  #F0F0F0;   /* Papel         — fundo     */
-  --green:  #00FF85;   /* Confirmado    — sucesso   */
+  --violet: #1E90FF;
+  --coral:  #FF4F8B;
+  --yellow: #FFEB3B; 
+  --night:  #1B1536;
+  --paper:  #F0F0F0;
+  --green:  #00FF85;
 
   /* Cores de uso (mudam no tema escuro) */
   --bg:      var(--paper);
@@ -41,33 +41,18 @@
   --soft:    #ECE8FF;
   --link:    #2E5CFF;
   --err:     #D8264A;
-
-  /* Cores do logo: o texto "Campus" usa --text; ícone e "Pass" usam --logo-main */
   --logo-main: var(--violet);
   --logo-line: #FFFFFF;
-
-  /* Destaque de ação (opção selecionada, botão +, Finalizar compra): violeta no claro, amarelo no escuro */
   --accent-bg:   var(--violet);
   --accent-text: #FFFFFF;
-
-  /* Cor dos links do rodapé ao passar o mouse: violeta no claro, amarelo no escuro */
   --foot-hover: var(--violet);
-
   color-scheme: light;
-
-  /* Raios de borda */
   --r1: 8px;
   --r2: 14px;
   --r3: 24px;
-
-  /* Sombra violeta suave */
   --shadow: 0 8px 24px rgba(46, 92, 255, .18);
 }
 
-/* Tema escuro: os mesmos tokens, com outros valores.
-   Vale em dois casos: (1) o sistema está no escuro e a pessoa não escolheu
-   o claro; (2) a pessoa escolheu o escuro no botão (data-theme="dark").
-   Se mudar uma cor aqui, mude nos dois blocos. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
@@ -133,13 +118,11 @@ h1 { font-size: clamp(2.25rem, 6vw, 3rem); }
 h2 { font-size: 2rem; }
 h3 { font-size: 1.375rem; }
 
-/* Anel amarelo quando um item recebe foco pelo teclado */
 :focus-visible {
   outline: 3px solid var(--yellow);
   outline-offset: 2px;
 }
 
-/* Largura máxima do conteúdo, centralizado */
 .wrap {
   max-width: 1120px;
   margin: 0 auto;
@@ -175,7 +158,6 @@ h3 { font-size: 1.375rem; }
   display: flex;
 }
 
-/* Logo em SVG embutido (veja logoSvg em site.js) */
 .logo-icon   { fill: var(--logo-main); }
 .logo-line   { stroke: var(--logo-line); }
 .logo-text   { fill: var(--text); }
@@ -203,7 +185,6 @@ h3 { font-size: 1.375rem; }
   gap: 8px;
 }
 
-/* Botão que alterna entre tema claro e escuro */
 .theme-btn {
   width: 44px;
   height: 44px;
@@ -257,7 +238,6 @@ h3 { font-size: 1.375rem; }
   width: 100%;
 }
 
-/* Primário */
 .btn-primary {
   background: var(--violet);
   color: #FFFFFF;
@@ -267,35 +247,30 @@ h3 { font-size: 1.375rem; }
   background: #1F47E0;
 }
 
-/* Secundário */
 .btn-sec {
   background: var(--soft);
   color: var(--link);
 }
 
-/* Fantasma */
 .btn-ghost {
   background: none;
   color: var(--link);
 }
 
-/* Amarelo (usado no hero e no rodapé) */
 .btn-yellow {
   background: var(--yellow);
   color: var(--night);
 }
 
-/* Desabilitado */
 .btn:disabled {
   background: var(--soft);
   color: var(--muted);
   cursor: not-allowed;
 }
 
-/* Finalizar compra: azul no tema claro, amarelo no escuro (só quando habilitado) */
 #fin:not(:disabled) {
-  background: var(--accent-bg);
-  color: var(--accent-text);
+  background: #1E90FF;
+  color: #FFFFFF;
 }
 
 #fin:not(:disabled):hover {
@@ -307,7 +282,6 @@ h3 { font-size: 1.375rem; }
    5. CAMPOS E FORMULÁRIOS
    ========================================================================== */
 
-/* Campo de texto */
 .in {
   width: 100%;
   height: 44px;
@@ -325,7 +299,6 @@ h3 { font-size: 1.375rem; }
   box-shadow: 0 0 0 3px rgba(46, 92, 255, .2);
 }
 
-/* Rótulo + campo + mensagens */
 .field {
   display: flex;
   flex-direction: column;
@@ -342,7 +315,6 @@ h3 { font-size: 1.375rem; }
   color: var(--muted);
 }
 
-/* Mensagem de erro embaixo do campo (aparece com .field.err) */
 .msg {
   display: none;
   font-size: 13px;
@@ -361,27 +333,23 @@ h3 { font-size: 1.375rem; }
   display: none;
 }
 
-/* Mensagem de erro geral do formulário */
 .err-top {
   display: none;
   font-size: 13px;
   color: var(--err);
 }
 
-/* Campo + botão lado a lado (senha, código Pix) */
 .pw {
   display: flex;
   gap: 8px;
 }
 
-/* Duas colunas iguais */
 .two {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
-/* Formulário em grade de 6 colunas: .s2 ocupa 2, .s3 ocupa 3 etc. */
 .form-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -408,7 +376,6 @@ h3 { font-size: 1.375rem; }
   font-weight: 700;
 }
 
-/* Bolinha antes do texto */
 .tag::before {
   content: "";
   width: 6px;
@@ -433,9 +400,6 @@ h3 { font-size: 1.375rem; }
   background: var(--surface);
 }
 
-/* ---- Página "Trabalhe conosco" ---- */
-
-/* Abertura: texto à esquerda e colagem de fotos à direita (sem o cartão azul da página inicial) */
 .trab-intro {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -455,7 +419,6 @@ h3 { font-size: 1.375rem; }
   font-size: clamp(2.5rem, 5.5vw, 3.75rem);
 }
 
-/* Palavra destacada com um "marca-texto" amarelo por baixo */
 .marca {
   margin: 0 -4px;
   padding: 0 4px;
@@ -475,7 +438,6 @@ h3 { font-size: 1.375rem; }
   gap: 12px;
 }
 
-/* Colagem: uma foto alta à esquerda e duas à direita, levemente inclinadas */
 .trab-fotos {
   position: relative;
   display: grid;
@@ -489,7 +451,7 @@ h3 { font-size: 1.375rem; }
   height: 100%;
   object-fit: cover;
   border-radius: var(--r3);
-  background: var(--soft);      /* aparece se a foto não carregar */
+  background: var(--soft);
   box-shadow: var(--shadow);
 }
 
@@ -521,12 +483,10 @@ h3 { font-size: 1.375rem; }
   .trab-selo  { left: 8px; }
 }
 
-/* Espaço entre as seções da página */
 .page-section {
   margin-bottom: 56px;
 }
 
-/* Filtro por área (botões em forma de pílula) */
 .filtros {
   display: flex;
   flex-wrap: wrap;
@@ -555,14 +515,12 @@ h3 { font-size: 1.375rem; }
   color: var(--accent-text);
 }
 
-/* Grade de vagas */
 .vagas {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   gap: 24px;
 }
 
-/* Vaga em formato de ingresso: corpo, picote com recortes redondos e rodapé */
 .vaga-ticket {
   position: relative;
   overflow: hidden;
@@ -594,14 +552,12 @@ h3 { font-size: 1.375rem; }
   margin-bottom: 8px;
 }
 
-/* Número da vaga, como o número de um ingresso */
 .vt-num {
   color: var(--muted);
   font: 800 1.5rem "Bricolage Grotesque", sans-serif;
   letter-spacing: .04em;
 }
 
-/* Picote: linha tracejada com meio círculo em cada ponta */
 .vt-line {
   position: relative;
   height: 0;
@@ -642,13 +598,11 @@ h3 { font-size: 1.375rem; }
   flex-direction: column;
 }
 
-/* Selo neutro, para informações secundárias (modelo e tipo da vaga) */
 .tag.soft {
   background: var(--soft);
   color: var(--text);
 }
 
-/* Mensagem depois de enviar a candidatura */
 .sucesso {
   display: flex;
   flex-direction: column;
@@ -657,7 +611,6 @@ h3 { font-size: 1.375rem; }
   padding: 16px 0;
 }
 
-/* Campo de texto de várias linhas */
 textarea.in {
   height: auto;
   min-height: 120px;
@@ -665,9 +618,6 @@ textarea.in {
   resize: vertical;
 }
 
-/* ---- Página "Sobre nós" ---- */
-
-/* Abertura centralizada, só com texto */
 .sobre-intro {
   display: flex;
   flex-direction: column;
@@ -688,7 +638,6 @@ textarea.in {
   font-size: 1.0625rem;
 }
 
-/* Fotos em formato de arco, alternando a altura */
 .arcos {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -702,7 +651,7 @@ textarea.in {
   aspect-ratio: 3 / 4;
   object-fit: cover;
   border-radius: 999px 999px var(--r3) var(--r3);
-  background: var(--soft);      /* aparece se a foto não carregar */
+  background: var(--soft);
   box-shadow: var(--shadow);
 }
 
@@ -710,7 +659,6 @@ textarea.in {
   margin-bottom: 32px;
 }
 
-/* Missão: título à esquerda, texto à direita */
 .sobre-missao {
   display: grid;
   grid-template-columns: 1fr 1.6fr;
@@ -722,7 +670,6 @@ textarea.in {
   font-size: 1.0625rem;
 }
 
-/* Passos de "Como funciona" */
 .passos {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -748,7 +695,6 @@ textarea.in {
   font: 800 1.25rem "Bricolage Grotesque", sans-serif;
 }
 
-/* Cartões de valores: faixa de cor no topo */
 .valor {
   border-top: 4px solid var(--accent-bg);
 }
@@ -761,7 +707,6 @@ textarea.in {
   color: var(--link);
 }
 
-/* Chamada final */
 .sobre-cta {
   display: flex;
   flex-wrap: wrap;
@@ -780,9 +725,6 @@ textarea.in {
   .sobre-cta     { padding: 28px 24px; }
 }
 
-/* ---- Central de suporte ---- */
-
-/* Abertura centralizada com a busca grande */
 .sup-intro {
   display: flex;
   flex-direction: column;
@@ -816,7 +758,6 @@ textarea.in {
   font-size: 1rem;
 }
 
-/* Cartões de assunto: funcionam como filtro das perguntas */
 .sup-cats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -865,7 +806,6 @@ textarea.in {
   font: 800 .95rem "Bricolage Grotesque", sans-serif;
 }
 
-/* Perguntas frequentes (acordeão com <details>) */
 .faq {
   display: flex;
   flex-direction: column;
@@ -935,7 +875,6 @@ textarea.in {
   gap: 12px;
 }
 
-/* Aviso sobre golpes, antes do formulário */
 .aviso-golpe {
   display: flex;
   flex-direction: column;
@@ -947,8 +886,6 @@ textarea.in {
 @media (max-width: 860px) {
   .sup-intro { margin-top: 32px; }
 }
-
-/* ---- Meus ingressos ---- */
 
 .ing-head {
   display: flex;
@@ -974,10 +911,9 @@ textarea.in {
   display: none;
 }
 
-/* Ingresso: dados à esquerda, picote vertical e QR Code à direita */
 .ing {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--r3);
@@ -995,27 +931,83 @@ textarea.in {
 .ing-top {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
 }
 
+.ing-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ing-status.reembolso {
+  color: var(--coral);
+}
+
+.ing-status.confirmado {
+  color: #00FF85;
+}
+
+.ing-main h3 {
+  font-size: 1.5rem;
+}
+
+.ing-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+}
+
+.ing-info li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ing-info .ico {
+  flex: none;
+  color: var(--link);
+}
+
 .ing-dados {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 24px;
-  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 4px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
 }
 
 .ing-dados dt {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
 
 .ing-dados dd {
-  margin: 0;
-  font-weight: 600;
+  margin: 4px 0 0;
+  font-weight: 700;
 }
 
-/* Código do ingresso em fonte de largura fixa, mais fácil de ler e ditar */
+.ing-dados .direita {
+  text-align: right;
+}
+
+.ing-valor {
+  color: var(--accent-bg);
+  font-size: 1.125rem;
+}
+
 .ing-cod {
   font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   letter-spacing: .08em;
@@ -1024,39 +1016,50 @@ textarea.in {
 .ing-stub {
   position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 24px 32px;
-  border-left: 2px dashed var(--line);
+  gap: 16px;
+  padding: 24px;
+  border-top: 2px dashed var(--line);
 }
 
-/* Recortes redondos nas pontas do picote */
 .ing-stub::before,
 .ing-stub::after {
   content: "";
   position: absolute;
-  left: -13px;
+  top: -13px;
   width: 24px;
   height: 24px;
   border-radius: 50%;
   background: var(--bg);
 }
 
-.ing-stub::before { top: -12px; }
-.ing-stub::after  { bottom: -12px; }
+.ing-stub::before { left: -12px; }
+.ing-stub::after  { right: -12px; }
 
 .ing-qr {
-  padding: 8px;
+  flex: none;
+  padding: 4px;
   border: 0;
-  border-radius: var(--r2);
-  background: #FFFFFF;     /* QR Code precisa de fundo branco para ser lido, nos dois temas */
+  border-radius: var(--r1);
+  background: #FFFFFF;
   cursor: pointer;
 }
 
 .ing-qr img {
   display: block;
+}
+
+.ing-qr-txt {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.btn-qr {
+  gap: 8px;
+  background: #1E90FF;
+  color: #FFFFFF;
 }
 
 .qr-grande {
@@ -1083,7 +1086,6 @@ textarea.in {
   border: 0;
 }
 
-/* Botões da janela de confirmação da compra */
 .dialog-acoes {
   display: flex;
   flex-wrap: wrap;
@@ -1096,15 +1098,109 @@ dialog .dialog-acoes .btn {
   margin-top: 0;
 }
 
-@media (max-width: 600px) {
-  /* Celular: o QR Code vai para baixo, e o picote fica na horizontal */
-  .ing            { grid-template-columns: 1fr; }
-  .ing-stub       { border-left: 0; border-top: 2px dashed var(--line); padding: 24px; }
-  .ing-stub::before { top: -13px; left: -12px; }
-  .ing-stub::after  { top: -13px; left: auto; right: -12px; bottom: auto; }
+.seta-voltar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-top: 24px;
+  color: var(--text);
+  font-size: 1.75rem;
+  line-height: 1;
+  text-decoration: none;
 }
 
-/* Aviso curto com link para os termos (início e compra) */
+.seta-voltar:hover {
+  color: var(--link);
+}
+
+.reem-intro {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  gap: 48px;
+  margin: 48px 0 64px;
+}
+
+.reem-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.reem-texto h1 {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+}
+
+.reem-texto .lead {
+  max-width: 46ch;
+  color: var(--muted);
+  font-size: 1.0625rem;
+}
+
+.reem-selo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 40px 32px;
+  border-radius: var(--r3);
+  background: var(--yellow);
+  box-shadow: var(--shadow);
+  color: var(--night);
+  text-align: center;
+  transform: rotate(2deg);
+}
+
+.reem-selo b {
+  font: 800 6rem/1 "Bricolage Grotesque", sans-serif;
+}
+
+.reem-selo span {
+  max-width: 22ch;
+  font-weight: 600;
+}
+
+.reem-selo::before,
+.reem-selo::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg);
+  transform: translateY(-50%);
+}
+
+.reem-selo::before { left: -16px; }
+.reem-selo::after  { right: -16px; }
+
+.reem-info {
+  margin-bottom: 16px;
+  border-left: 4px solid var(--muted);
+}
+
+.reem-info[hidden] {
+  display: none;
+}
+
+.reem-info.ok    { border-left-color: var(--green); }
+.reem-info.aviso { border-left-color: var(--coral); }
+
+@media (max-width: 860px) {
+  .reem-intro {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin: 32px 0 56px;
+  }
+
+  .reem-selo { align-self: stretch; transform: none; }
+}
+
 .legal-note {
   margin-top: 16px;
   text-align: center;
@@ -1114,7 +1210,6 @@ dialog .dialog-acoes .btn {
   color: var(--link);
 }
 
-/* ---- Páginas de texto longo (termos de uso) ---- */
 .legal {
   max-width: 800px;
   margin: 24px auto 0;
@@ -1130,7 +1225,6 @@ dialog .dialog-acoes .btn {
   font-size: 1.0625rem;
 }
 
-/* Título de cada parte (I, II, III, IV) */
 .legal h2 {
   margin: 48px 0 8px;
   padding-top: 24px;
@@ -1138,7 +1232,6 @@ dialog .dialog-acoes .btn {
   font-size: 1.625rem;
 }
 
-/* Título de cada artigo/cláusula */
 .legal h3 {
   margin: 28px 0 10px;
   font-size: 1.125rem;
@@ -1157,15 +1250,13 @@ dialog .dialog-acoes .btn {
   background: var(--soft);
 }
 
-/* Dados que o dono do site ainda precisa preencher (razão social, endereço...) */
-.legal mark.todo {
+mark.todo {
   padding: 1px 6px;
   border-radius: 4px;
   background: var(--yellow);
   color: var(--night);
 }
 
-/* Tabelas (quadro de legislação e enquadramento penal) */
 .table-wrap {
   margin: 12px 0 8px;
   overflow-x: auto;
@@ -1173,32 +1264,39 @@ dialog .dialog-acoes .btn {
   border-radius: var(--r2);
 }
 
-.legal table {
+.legal table,
+.tabela table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
 .legal th,
-.legal td {
+.legal td,
+.tabela th,
+.tabela td {
   padding: 12px 16px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
 }
 
-.legal thead th {
+.legal thead th,
+.tabela thead th {
   background: var(--soft);
   white-space: nowrap;
 }
 
-.legal tbody th {
+.legal tbody th,
+.tabela tbody th {
   min-width: 190px;
   font-weight: 600;
 }
 
 .legal tbody tr:last-child th,
-.legal tbody tr:last-child td {
+.legal tbody tr:last-child td,
+.tabela tbody tr:last-child th,
+.tabela tbody tr:last-child td {
   border-bottom: 0;
 }
 
@@ -1219,7 +1317,6 @@ dialog .dialog-acoes .btn {
   color: var(--link);
 }
 
-/* Sumário no topo: uma coluna por parte, com links para cada artigo */
 .legal-toc {
   margin: 24px 0 8px;
   padding: 20px 24px;
@@ -1257,7 +1354,6 @@ dialog .dialog-acoes .btn {
   margin-bottom: 4px;
 }
 
-/* O cabeçalho fixo não cobre o título quando se clica no índice */
 .legal section {
   scroll-margin-top: 88px;
 }
@@ -1274,7 +1370,6 @@ dialog .dialog-acoes .btn {
    8. PÁGINA INICIAL
    ========================================================================== */
 
-/* ---- Hero em formato de ingresso (recortes redondos nas laterais) ---- */
 .hero {
   position: relative;
   overflow: hidden;
@@ -1313,33 +1408,30 @@ dialog .dialog-acoes .btn {
   opacity: .9;
 }
 
-/* ---- Carrossel de destaques (cada slide é um .hero) ---- */
 .carousel {
   position: relative;
   overflow: hidden;
-  margin: 24px 0 48px;          /* a margem do hero passa para o carrossel */
+  margin: 24px 0 48px;
   border-radius: var(--r3);
 }
 
 .carousel-track {
   display: flex;
-  transition: transform .9s ease;   /* desligada pelo "movimento reduzido" */
+  transition: transform .9s ease;
 }
 
 .carousel .slide {
   flex: 0 0 100%;
-  margin: 0;                     /* a margem agora é do .carousel */
-  padding-left: 96px;            /* afasta o texto das setas */
+  margin: 0;
+  padding-left: 96px;
   padding-right: 96px;
-  padding-bottom: 80px;          /* espaço para as bolinhas */
-  /* camadas: véu azul (mantém o texto legível) → foto → azul liso (reserva) */
+  padding-bottom: 80px;
   background:
     linear-gradient(90deg, rgba(46, 92, 255, .92), rgba(46, 92, 255, .6) 55%, rgba(46, 92, 255, .25)),
     var(--foto, none) center / cover,
     var(--violet);
 }
 
-/* títulos dos slides extras usam h2 com o mesmo visual do h1 */
 .hero h2 {
   max-width: 14ch;
   font-size: clamp(2.25rem, 6vw, 3rem);
@@ -1362,7 +1454,7 @@ dialog .dialog-acoes .btn {
 }
 
 .car-btn:hover { background: #FFD670; }
-.car-btn.prev  { left: 24px; }    /* 24px para não bater no recorte do ingresso */
+.car-btn.prev  { left: 24px; }    
 .car-btn.next  { right: 24px; }
 
 .car-dots {
@@ -1392,7 +1484,6 @@ dialog .dialog-acoes .btn {
   background: var(--yellow);
 }
 
-/* ---- Título da seção ---- */
 .sec-head {
   display: flex;
   justify-content: space-between;
@@ -1400,44 +1491,72 @@ dialog .dialog-acoes .btn {
   margin-bottom: 24px;
 }
 
-/* ---- Grade de cards de evento ---- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
 }
 
-/* ---- Card de evento ---- */
 .ev {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border: 1px solid var(--line);
   border-radius: var(--r3);
   background: var(--surface);
   box-shadow: var(--shadow);
   transition: transform .25s ease, box-shadow .25s ease;
 }
 
-/* O card sobe quando o mouse passa (ou quando recebe foco pelo teclado) */
 .ev:hover,
 .ev:focus-within {
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(46, 92, 255, .32);
 }
 
-/* Topo com gradiente e selos */
 .ev-top {
   display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 8px;
-  height: 150px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  height: 210px;
   padding: 16px;
-  /* camadas: sombra no topo (deixa os selos legíveis) → foto → gradiente (reserva) */
+  color: #FFFFFF;
   background:
-    linear-gradient(to bottom, rgba(27, 21, 54, .55), rgba(27, 21, 54, 0) 60%),
+    linear-gradient(to bottom, rgba(27, 21, 54, .45), rgba(27, 21, 54, 0) 40%, rgba(27, 21, 54, .85)),
     var(--foto, none) center / cover,
     linear-gradient(135deg, var(--violet), var(--coral));
+}
+
+.ev-tags {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.ico-tag {
+  gap: 8px;
+}
+
+.ico-tag::before {
+  display: none;     
+}
+
+.ico {
+  flex: none;
+}
+
+.ev-local {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ev-local .ico {
+  color: var(--yellow);
 }
 
 .ev-body {
@@ -1448,14 +1567,40 @@ dialog .dialog-acoes .btn {
   padding: 24px;
 }
 
-/* Preço + botão Comprar, sempre no pé do card */
 .ev-foot {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   gap: 12px;
   margin-top: auto;
   padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.ev-body h3 {
+  color: var(--accent-bg);
+}
+
+.ev-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.ev-from {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.ev .btn {
+  gap: 8px;
 }
 
 .price {
@@ -1467,7 +1612,6 @@ dialog .dialog-acoes .btn {
    9. LOGIN E CADASTRO
    ========================================================================== */
 
-/* Tela dividida do login: arte à esquerda, formulário à direita */
 .auth {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1479,7 +1623,6 @@ dialog .dialog-acoes .btn {
   flex-direction: column;
   justify-content: space-between;
   padding: 48px;
-  /* camadas: véu (deixa o texto legível) → foto → gradiente (reserva) */
   background:
     linear-gradient(to top, rgba(27, 21, 54, .85), rgba(46, 92, 255, .35) 60%, rgba(46, 92, 255, .45)),
     var(--foto, none) center / cover,
@@ -1492,7 +1635,6 @@ dialog .dialog-acoes .btn {
   padding: 0;
   border-radius: var(--r2);
   background: none;
-  /* Sobre a foto escura o logo é sempre claro, nos dois temas */
   --text: #FFFFFF;
   --logo-main: var(--yellow);
   --logo-line: var(--night);
@@ -1518,7 +1660,6 @@ dialog .dialog-acoes .btn {
    10. PÁGINA DE COMPRA
    ========================================================================== */
 
-/* ---- Cabeçalho do evento (arte + informações) ---- */
 .ev-head {
   display: grid;
   grid-template-columns: 240px 1fr;
@@ -1541,7 +1682,6 @@ dialog .dialog-acoes .btn {
   padding: 24px;
 }
 
-/* ---- Duas colunas: ingressos/pagamento à esquerda, resumo à direita ---- */
 .cols {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -1565,7 +1705,7 @@ dialog .dialog-acoes .btn {
   display: block;
 }
 
-/* Linha selecionada (quantidade maior que zero) */
+/* Linha selecionada */
 .row.sel {
   border-color: var(--accent-bg);
   background: var(--soft);
@@ -1652,7 +1792,6 @@ dialog .dialog-acoes .btn {
   background: #FFFFFF;
 }
 
-/* ---- Cartão de crédito (prévia que se preenche ao digitar) ---- */
 .cc {
   display: flex;
   flex-direction: column;
@@ -1671,7 +1810,6 @@ dialog .dialog-acoes .btn {
   color: #FFFFFF;
 }
 
-/* Selo com os dois círculos da bandeira */
 .cc-brand {
   display: flex;
   align-items: center;
@@ -1724,6 +1862,44 @@ dialog .dialog-acoes .btn {
   padding-top: 12px;
   border-top: 1px solid var(--line);
   font: 800 1.375rem "Bricolage Grotesque", sans-serif;
+}
+
+.sum .tot #tot {
+  color: var(--accent-bg);
+}
+
+.btn-finalizar {
+  gap: 10px;
+  height: 56px;
+  border-radius: var(--r2);
+  font-size: 17px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px -6px rgba(30, 144, 255, .55);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.btn-finalizar svg {
+  flex: none;
+  color: var(--yellow);
+}
+
+.btn-finalizar:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -6px rgba(30, 144, 255, .7);
+}
+
+.btn-finalizar:disabled {
+  opacity: .55;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.confetes {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
 }
 
 
@@ -1788,7 +1964,6 @@ dialog .btn {
   opacity: .85;
 }
 
-/* Linha divisória com os recortes redondos nas pontas */
 .tk-line {
   position: relative;
   height: 0;
@@ -1856,12 +2031,10 @@ dialog .btn {
   color: var(--text);
 }
 
-/* Campo de email do rodapé: um tom diferente do fundo, nos dois temas */
 .foot .in {
   background: var(--bg);
 }
 
-/* Logo do rodapé (segue as cores do tema, sem fundo) */
 .foot .chip {
   display: inline-block;
   margin-bottom: 12px;
@@ -1878,7 +2051,6 @@ dialog .btn {
   gap: 8px;
 }
 
-/* Link dentro da barra de baixo: sem o espaçamento dos links das colunas */
 .foot .foot-end-link {
   display: inline;
   padding: 0;
@@ -1899,27 +2071,19 @@ dialog .btn {
 
 /* ==========================================================================
    13. RESPONSIVO
-   Estas regras vêm por último de propósito: elas sobrescrevem as regras
-   normais quando a tela é pequena.
    ========================================================================== */
 
 /* Celular e tablet pequeno */
 @media (max-width: 860px) {
-  /* Login: some a arte, fica só o formulário */
   .auth           { grid-template-columns: 1fr; }
   .auth-art       { display: none; }
-
-  /* Cadastro: todos os campos ocupam a linha inteira */
   .s2, .s3, .s4   { grid-column: span 6; }
-
-  /* Compra: resumo vai para baixo dos ingressos */
   .cols           { grid-template-columns: 1fr; }
 
   .hero           { padding: 48px 24px; }
 
-  /* Carrossel: no celular, só arrastar e bolinhas */
   .carousel .slide {
-    padding-left: 24px;          /* sem setas no celular, volta ao normal */
+    padding-left: 24px; 
     padding-right: 24px;
     padding-bottom: 72px;
   }
@@ -1928,7 +2092,6 @@ dialog .btn {
 
 /* Celular */
 @media (max-width: 760px) {
-  /* Barra de navegação: aparece o hambúrguer e o menu abre embaixo */
   .burger {
     display: block;
   }
@@ -1950,8 +2113,6 @@ dialog .btn {
   .search input {
     flex: 1;
   }
-
-  /* Rodapé em duas colunas */
   .foot-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -1959,7 +2120,6 @@ dialog .btn {
 
 /* Celular pequeno */
 @media (max-width: 600px) {
-  /* Termos: menos espaço nas bordas e índice em uma coluna */
   .legal          { padding: 24px 20px; }
   .legal h2       { font-size: 1.375rem; }
 
@@ -1967,13 +2127,6 @@ dialog .btn {
     grid-template-columns: 1fr;
   }
 }
-
-
-/* ==========================================================================
-   14. MOVIMENTO REDUZIDO
-   Para quem desativou animações no sistema, as transições ficam desligadas.
-   ========================================================================== */
-
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;

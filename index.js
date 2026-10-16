@@ -1,24 +1,45 @@
 window.EVENTOS = [
-  { id: 1, titulo: 'Show 1',               preco: 80,  data: 'Sábado · 20h'  },
-  { id: 2, titulo: 'Show 2',               preco: 95,  data: 'Sexta · 22h'   },
-  { id: 3, titulo: 'Show 3',               preco: 120, data: 'Sábado · 22h'  },
-  { id: 4, titulo: 'Calourada Engenharia', preco: 25,  data: 'Sábado · 22h'  },
-  { id: 5, titulo: 'Festival de Inverno',  preco: 110, data: 'Domingo · 16h' },
-  { id: 6, titulo: 'Open Air Medicina',    preco: 70,  data: 'Sexta · 21h'   },
-  { id: 7, titulo: 'Bateria Day',          preco: 40,  data: 'Sábado · 14h'  },
-  { id: 8, titulo: 'Noite do Direito',     preco: 60,  data: 'Quinta · 22h'  },
-  { id: 9, titulo: 'Sunset Campus',        preco: 85,  data: 'Domingo · 17h' },
+  { id: 1, titulo: 'Show 1 - Trap & Funk Festival', preco: 80,  data: 'Sábado · 20h',
+    descricao: 'O maior encontro musical universitário do semestre, com line-up incrível e estrutura de som e luz de primeira.' },
+  { id: 2, titulo: 'Show 2',               preco: 95,  data: 'Sexta · 22h',
+    descricao: 'Uma noite de música ao vivo para curtir com a galera da universidade, do primeiro ao último ato.' },
+  { id: 3, titulo: 'Show 3',               preco: 120, data: 'Sábado · 22h',
+    descricao: 'Show ao vivo com pista aberta, bar e muita energia para fechar a semana com os amigos.' },
+  { id: 4, titulo: 'Calourada Engenharia', preco: 25,  data: 'Sábado · 22h',
+    descricao: 'A festa de boas-vindas dos calouros de Engenharia: música, jogos e o primeiro rolê do semestre.' },
+  { id: 5, titulo: 'Festival de Inverno',  preco: 110, data: 'Domingo · 16h',
+    descricao: 'Um domingo de festival com várias atrações e espaço para curtir o dia todo com a galera.' },
+  { id: 6, titulo: 'Open Air Medicina',    preco: 70,  data: 'Sexta · 21h',
+    descricao: 'Festa ao ar livre da turma de Medicina, com música, pista e a energia de quem merece um respiro.' },
+  { id: 7, titulo: 'Bateria Day',          preco: 40,  data: 'Sábado · 14h',
+    descricao: 'Tarde de samba e bateria universitária, com ensaio aberto e roda de música para todo mundo.' },
+  { id: 8, titulo: 'Noite do Direito',     preco: 60,  data: 'Quinta · 22h',
+    descricao: 'A noite mais esperada do curso de Direito, com pista, bar e muita música para virar a madrugada.' },
+  { id: 9, titulo: 'Sunset Campus',        preco: 85,  data: 'Domingo · 17h',
+    descricao: 'Música e pôr do sol no campus: um fim de tarde de domingo para relaxar e encontrar os amigos.' },
 ];
 
-// Foto do evento: usa o campo "foto" se existir; senão, uma foto fixa do Picsum
-// (o "seed" garante que o mesmo evento sempre receba a mesma imagem).
+const LOCAL_PADRAO = 'Arena CampusPass · São Paulo, SP';
+
+function icone(nome) {
+  const tracos = {
+    calendario: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    pessoas:    '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+    local:      '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+    seta:       '<path d="M5 12h14M12 5l7 7-7 7"/>',
+    confirmado: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+    relogio:    '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    reembolso:  '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+    expandir:   '<path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>',
+  };
+  return `<svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${tracos[nome]}</svg>`;
+}
+
 function fotoDe(evento, largura = 600, altura = 300) {
   return evento.foto || `https://picsum.photos/seed/campuspass-${evento.id}/${largura}/${altura}`;
 }
 
-// Logo em SVG embutido na página: assim as cores seguem o tema claro/escuro
-// (um <img src="logo.svg"> não enxerga as variáveis de cor do CSS).
-// As cores vêm de --logo-main, --logo-line e --text, definidas no styles.css.
 function logoSvg(largura, altura) {
   return `
     <svg class="logo" viewBox="0 0 340 100" width="${largura}" height="${altura}"
@@ -64,7 +85,6 @@ function salvarUsuarios(usuarios) {
   localStorage.setItem('campuspass_users', JSON.stringify(usuarios));
 }
 
-// Ingressos comprados. Ainda não há servidor: ficam guardados neste navegador.
 function lerIngressos() {
   try {
     return JSON.parse(localStorage.getItem('campuspass_ingressos') || '[]');
@@ -79,7 +99,20 @@ function salvarIngressos(ingressos) {
   } catch (e) {}
 }
 
-// Código único de cada ingresso, por exemplo "CP-7KQ2M9XD" (sem letras parecidas, como O/0 e I/1)
+function lerReembolsos() {
+  try {
+    return JSON.parse(localStorage.getItem('campuspass_reembolsos') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function salvarReembolsos(pedidos) {
+  try {
+    localStorage.setItem('campuspass_reembolsos', JSON.stringify(pedidos));
+  } catch (e) {}
+}
+
 function gerarCodigo() {
   const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const bytes = crypto.getRandomValues(new Uint8Array(8));
@@ -170,14 +203,14 @@ function inserirRodape() {
             <h4>Ajuda</h4>
             <a href="central-de-suporte.html">Central de suporte</a>
             <a href="meus-ingressos.html">Meus ingressos</a>
-            <a href="#">Reembolso</a>
+            <a href="reembolso.html">Reembolso</a>
           </div>
 
           <div>
             <h4>Receba as novidades</h4>
             <form>
               <input class="in" type="email" placeholder="seu@email.com" aria-label="E-mail">
-              <button class="btn btn-yellow">Assinar</button>
+              <button class="btn btn-primary">Assinar</button>
             </form>
           </div>
         </div>
@@ -194,9 +227,6 @@ function inserirRodape() {
   document.body.insertAdjacentHTML('beforeend', html);
 }
 
-// Tema claro/escuro: começa pelo tema do sistema e guarda a escolha da pessoa.
-// (O <script> no <head> de cada página aplica o tema salvo antes de a página
-// aparecer, para não piscar.)
 function ativarTema() {
   const raiz = document.documentElement;
   const botao = document.getElementById('tema');
@@ -218,7 +248,6 @@ function ativarTema() {
     atualizarBotao();
   });
 
-  // Se a pessoa nunca escolheu, acompanha o sistema quando ele muda
   sistemaEscuro.addEventListener('change', atualizarBotao);
 
   atualizarBotao();
@@ -270,13 +299,12 @@ function montarCarrossel() {
   const carrossel = document.querySelector('.carousel');
   if (!carrossel) return;
 
-  const IDS_DESTAQUE = [4, 5, 9];   // ids dos eventos que viram slides
-  const INTERVALO = 9000;   // tempo entre slides (ms)
+  const IDS_DESTAQUE = [4, 5, 9];
+  const INTERVALO = 9000;
 
   const trilho = carrossel.querySelector('.carousel-track');
   const pontos = carrossel.querySelector('.car-dots');
 
-  // Cria um slide para cada evento em destaque
   EVENTOS.filter(e => IDS_DESTAQUE.includes(e.id)).forEach(evento => {
     trilho.insertAdjacentHTML('beforeend', `
       <article class="hero slide" style="--foto:url('${fotoDe(evento, 1200, 520)}')">
@@ -291,8 +319,6 @@ function montarCarrossel() {
   const slides = [...carrossel.querySelectorAll('.slide')];
   let atual = 0;
   let timer = null;
-
-  // Uma bolinha por slide
   slides.forEach((_, i) => {
     const b = document.createElement('button');
     b.setAttribute('aria-label', `Ir para o slide ${i + 1}`);
@@ -305,7 +331,6 @@ function montarCarrossel() {
     atual = (i + slides.length) % slides.length;
     trilho.style.transform = `translateX(-${atual * 100}%)`;
     bolinhas.forEach((b, n) => b.classList.toggle('active', n === atual));
-    // slides escondidos não entram na ordem do Tab
     slides.forEach((s, n) => s.toggleAttribute('inert', n !== atual));
   }
 
@@ -316,14 +341,10 @@ function montarCarrossel() {
 
   carrossel.querySelector('.prev').addEventListener('click', () => { ir(atual - 1); reiniciar(); });
   carrossel.querySelector('.next').addEventListener('click', () => { ir(atual + 1); reiniciar(); });
-
-  // Pausa com mouse ou foco em cima
   carrossel.addEventListener('mouseenter', parar);
   carrossel.addEventListener('mouseleave', iniciar);
   carrossel.addEventListener('focusin', parar);
   carrossel.addEventListener('focusout', iniciar);
-
-  // Arrastar no celular
   let x0 = null;
   carrossel.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; parar(); }, { passive: true });
   carrossel.addEventListener('touchend', e => {
@@ -334,8 +355,6 @@ function montarCarrossel() {
     x0 = null;
     iniciar();
   });
-
-  // Setas do teclado
   carrossel.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft')  { ir(atual - 1); reiniciar(); }
     if (e.key === 'ArrowRight') { ir(atual + 1); reiniciar(); }
@@ -344,7 +363,56 @@ function montarCarrossel() {
   ir(0);
   iniciar();
 }
+function estourarConfetes(janela) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+  const tela = document.createElement('canvas');
+  tela.className = 'confetes';
+  janela.appendChild(tela);
+
+  const ctx = tela.getContext('2d');
+  const L = tela.width = innerWidth;
+  const A = tela.height = innerHeight;
+  const cores = ['#FFC83D', '#FF4F8B', '#1E90FF', '#2E5CFF', '#12C28A', '#FFFFFF', '#9B6BFF'];
+  const origens = [[L * .15, A], [L * .85, A], [L * .5, A * .75]];
+  const pecas = [];
+  origens.forEach(([x, y], i) => {
+    for (let n = 0; n < 70; n++) {
+      const centro = i === 0 ? -Math.PI * .35 : i === 1 ? -Math.PI * .65 : -Math.PI / 2;
+      const ang = centro + (Math.random() - .5) * 1.1;
+      const vel = (i === 2 ? 11 : 15) + Math.random() * 10;
+      pecas.push({
+        x, y,
+        vx: Math.cos(ang) * vel, vy: Math.sin(ang) * vel,
+        w: 6 + Math.random() * 6, h: 4 + Math.random() * 5,
+        rot: Math.random() * 6.28, vr: (Math.random() - .5) * .4,
+        cor: cores[Math.floor(Math.random() * cores.length)],
+        redonda: Math.random() < .25,
+      });
+    }
+  });
+
+  const inicio = performance.now();
+  (function quadro(agora) {
+    const t = agora - inicio;
+    ctx.clearRect(0, 0, L, A);
+    const fade = t > 2800 ? Math.max(0, 1 - (t - 2800) / 700) : 1;
+    pecas.forEach(p => {
+      p.vy += .35;  p.vx *= .985;  p.vy *= .985;
+      p.x += p.vx;  p.y += p.vy;  p.rot += p.vr;
+      ctx.save();
+      ctx.globalAlpha = fade;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.cor;
+      if (p.redonda) { ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, 6.28); ctx.fill(); }
+      else ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+    });
+    if (t < 3500) requestAnimationFrame(quadro);
+    else tela.remove();
+  })(inicio);
+}
 
 const paginas = {
 
@@ -353,32 +421,36 @@ const paginas = {
 
     function montarCard(evento, posicao) {
 
-      const seloUrgencia = posicao === 0
-        ? '<span class="tag coral">67 pessoas comprando agora</span>'
+      const seloData = evento.data
+        ? `<span class="tag yellow ico-tag">${icone('calendario')}${esc(evento.data)}</span>`
         : '';
 
-      const seloData = evento.data
-        ? `<span class="tag yellow">${esc(evento.data)}</span>`
+      const seloUrgencia = posicao === 0
+        ? `<span class="tag coral ico-tag">${icone('pessoas')}67 pessoas comprando agora</span>`
         : '';
 
       return `
         <article class="ev">
           <div class="ev-top" style="--foto:url('${fotoDe(evento)}')">
-            ${seloUrgencia}
-            ${seloData}
+            <div class="ev-tags">
+              ${seloData}
+              ${seloUrgencia}
+            </div>
+            <p class="ev-local">${icone('local')}${esc(evento.local || LOCAL_PADRAO)}</p>
           </div>
 
           <div class="ev-body">
             <h3>${esc(evento.titulo)}</h3>
+            <p class="ev-desc">${esc(evento.descricao || '')}</p>
 
             <div class="ev-foot">
               <div>
-                <span class="small">a partir de</span>
+                <span class="ev-from">A partir de</span>
                 <div class="price">${brl(evento.preco)}</div>
               </div>
 
               <a class="btn btn-primary"
-                 href="comprar.html?evento=${encodeURIComponent(evento.id)}">Comprar</a>
+                 href="comprar.html?evento=${encodeURIComponent(evento.id)}">Comprar ${icone('seta')}</a>
             </div>
           </div>
         </article>`;
@@ -483,8 +555,6 @@ const paginas = {
     const linhas = [...document.querySelectorAll('.row')]; 
     const botaoFinalizar = document.getElementById('fin');
     const janela = document.getElementById('ok');
-
-    // Funções que leem uma linha de ingresso
     const quantidadeDe = linha => Number(linha.querySelector('output').textContent);
     const nomeDe = linha => linha.querySelector('b').textContent;
     const precoDe = linha => Number(linha.dataset.price);
@@ -562,15 +632,12 @@ const paginas = {
       const cartaoNumero = document.getElementById('ccN');
       const cartaoNome = document.getElementById('ccNome');
       const cartaoValidade = document.getElementById('ccVal');
-
-      // Agrupa de 4 em 4: "445566" -> "4455 66"
       const agrupar = digitos => digitos.replace(/(.{4})(?=.)/g, '$1 ');
 
       campoNumero.addEventListener('input', () => {
         const digitos = campoNumero.value.replace(/\D/g, '').slice(0, 16);
 
         campoNumero.value = agrupar(digitos);
-        // Os dígitos que faltam aparecem como *
         cartaoNumero.textContent = agrupar(digitos.padEnd(16, '*'));
       });
 
@@ -598,8 +665,6 @@ const paginas = {
         </div>`;
     }
 
-    // Guarda um ingresso para cada unidade comprada (cada um com código próprio),
-    // para aparecerem em "Meus ingressos".
     function salvarCompra(comprados) {
       const dono = localStorage.getItem('campuspass_token') || '';
       const novos = [];
@@ -630,6 +695,7 @@ const paginas = {
 
         document.getElementById('tks').innerHTML = comprados.map(montarIngresso).join('');
         janela.showModal();
+        estourarConfetes(janela);
       };
 
       document.getElementById('fechar').onclick = () => {
@@ -668,7 +734,6 @@ const paginas = {
     const campoNome = document.getElementById('tnome');
     const sembanco = 'banco-de-talentos';
 
-    // Cada vaga é um "ingresso": corpo em cima, picote no meio e rodapé com o botão
     lista.innerHTML = VAGAS.map((vaga, i) => `
       <article class="vaga-ticket" data-area="${esc(vaga.area)}">
         <div class="vt-top">
@@ -689,7 +754,6 @@ const paginas = {
         </div>
       </article>`).join('');
 
-    // Filtro por área: "Todas" mais uma opção para cada área que existir na lista
     const filtros = document.getElementById('filtroVagas');
     const areas = ['Todas', ...new Set(VAGAS.map(v => v.area))];
 
@@ -713,8 +777,6 @@ const paginas = {
       '<option value="">Escolha...</option>' +
       VAGAS.map(v => `<option value="${esc(v.id)}">${esc(v.titulo)}</option>`).join('') +
       `<option value="${sembanco}">Banco de talentos (nenhuma vaga específica)</option>`;
-
-    // Clicar em "Candidatar-se" escolhe a vaga e leva para o formulário
     lista.addEventListener('click', evento => {
       const botao = evento.target.closest('[data-vaga]');
       if (!botao) return;
@@ -765,7 +827,6 @@ const paginas = {
   },
 
   suporte() {
-    // Assuntos (os cartões do topo). "ico" é o texto curto dentro do círculo amarelo.
     const CATEGORIAS = [
       { id: 'compras',    nome: 'Compras e pagamento',      ico: 'R$' },
       { id: 'ingressos',  nome: 'Meus ingressos',           ico: 'QR' },
@@ -824,7 +885,6 @@ const paginas = {
     const titulo = document.getElementById('faqTitulo');
     const contagem = document.getElementById('faqContagem');
 
-    // Sem acento e em minúsculas, para "reembolso" achar "Reembolsó" e vice-versa
     const normalizar = texto =>
       String(texto).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
     const semTags = html => html.replace(/<[^>]*>/g, ' ');
@@ -874,8 +934,6 @@ const paginas = {
 
     campoBusca.addEventListener('input', () => { estado.q = campoBusca.value; atualizar(); });
     campoBusca.closest('form').addEventListener('submit', evento => evento.preventDefault());
-
-    // Clicar no assunto filtra; clicar de novo no mesmo volta para todos
     caixaCats.addEventListener('click', evento => {
       const botao = evento.target.closest('.sup-cat');
       if (!botao) return;
@@ -902,7 +960,6 @@ const paginas = {
       const campos = formulario.querySelectorAll('input, select, textarea');
       if (!validarCampos(campos)) return;
 
-      // Ainda não há servidor: a mensagem fica guardada neste navegador.
       const mensagem = {
         nome: document.getElementById('sNome').value.trim(),
         email: document.getElementById('sEmail').value.trim().toLowerCase(),
@@ -936,12 +993,16 @@ const paginas = {
     const vazio = document.getElementById('ingVazio');
     const contagem = document.getElementById('ingContagem');
     const dialogo = document.getElementById('qrDialog');
-
-    // Quem está logado vê os próprios ingressos e os comprados sem login neste navegador
     const email = localStorage.getItem('campuspass_token') || '';
-    const meus = lerIngressos()
+    const todos = lerIngressos();
+    const confirmado = codigo => todos.findIndex(i => i.codigo === codigo) % 2 === 1;
+
+    const meus = todos
       .filter(ingresso => ingresso.dono === email || ingresso.dono === '')
-      .reverse();   // o mais recente primeiro
+      .reverse();
+
+    const pedidos = lerReembolsos();
+    const temPedido = codigo => pedidos.some(pedido => pedido.codigo === codigo);
 
     const urlQr = (codigo, tamanho) =>
       `https://api.qrserver.com/v1/create-qr-code/?size=${tamanho}x${tamanho}&margin=0&data=${encodeURIComponent(codigo)}`;
@@ -959,15 +1020,24 @@ const paginas = {
       <article class="ing">
         <div class="ing-main">
           <div class="ing-top">
-            <span class="tag yellow">${esc(ingresso.data)}</span>
-            <span class="tag green">Confirmado</span>
+            <span class="tag yellow">${esc(ingresso.categoria)}</span>
+            ${temPedido(ingresso.codigo)
+              ? `<span class="ing-status reembolso">${icone('reembolso')}Reembolso solicitado</span>`
+              : confirmado(ingresso.codigo)
+                ? `<span class="ing-status confirmado">${icone('confirmado')}Confirmado</span>`
+                : `<span class="ing-status">${icone('relogio')}Em processo de pagamento</span>`}
           </div>
+
           <h3>${esc(ingresso.evento)}</h3>
+
+          <ul class="ing-info">
+            <li>${icone('calendario')}${esc(ingresso.data)}</li>
+            <li>${icone('local')}${esc(ingresso.local || LOCAL_PADRAO)}</li>
+          </ul>
+
           <dl class="ing-dados">
-            <div><dt>Categoria</dt><dd>${esc(ingresso.categoria)}</dd></div>
-            <div><dt>Valor</dt><dd>${brl(ingresso.preco)}</dd></div>
-            <div><dt>Comprado em</dt><dd>${esc(dataBr(ingresso.compradoEm))}</dd></div>
-            <div><dt>Código</dt><dd class="ing-cod">${esc(ingresso.codigo)}</dd></div>
+            <div><dt>Código único</dt><dd class="ing-cod">${esc(ingresso.codigo)}</dd></div>
+            <div class="direita"><dt>Valor pago</dt><dd class="ing-valor">${brl(ingresso.preco)}</dd></div>
           </dl>
         </div>
 
@@ -975,15 +1045,20 @@ const paginas = {
           <button class="ing-qr" type="button" data-codigo="${esc(ingresso.codigo)}"
                   aria-label="Ampliar o QR Code do ingresso ${esc(ingresso.codigo)}">
             <img src="${urlQr(ingresso.codigo, 140)}" alt="QR Code do ingresso ${esc(ingresso.codigo)}"
-                 width="120" height="120">
+                 width="60" height="60">
           </button>
-          <span class="small">Toque para ampliar</span>
+          <div class="ing-qr-txt">
+            <b>QR Code Portaria</b>
+            <span class="small">Toque para ampliar</span>
+          </div>
+          <button class="btn btn-primary btn-qr" type="button" data-codigo="${esc(ingresso.codigo)}">
+            ${icone('expandir')}Abrir QR
+          </button>
         </div>
       </article>`).join('');
 
-    // Abre o QR Code grande, para mostrar na portaria
     lista.addEventListener('click', evento => {
-      const botao = evento.target.closest('.ing-qr');
+      const botao = evento.target.closest('[data-codigo]');
       if (!botao) return;
 
       const ingresso = meus.find(i => i.codigo === botao.dataset.codigo);
@@ -1002,13 +1077,100 @@ const paginas = {
 
     document.getElementById('qrFechar').addEventListener('click', () => dialogo.close());
     dialogo.addEventListener('click', evento => {
-      if (evento.target === dialogo) dialogo.close();   // clicar fora fecha
+      if (evento.target === dialogo) dialogo.close();
+    });
+  },
+
+  reembolso() {
+    const PRAZO_ARREPENDIMENTO = 7;
+
+    const email = localStorage.getItem('campuspass_token') || '';
+    const meus = lerIngressos()
+      .filter(ingresso => ingresso.dono === email || ingresso.dono === '')
+      .reverse();
+    const pedidos = lerReembolsos();
+    const temPedido = codigo => pedidos.some(pedido => pedido.codigo === codigo);
+
+    const formulario = document.getElementById('f');
+    const campoIngresso = document.getElementById('rIngresso');
+    const campoMotivo = document.getElementById('rMotivo');
+    const campoEmail = document.getElementById('rEmail');
+    const campoDetalhes = document.getElementById('rDetalhes');
+    const info = document.getElementById('reemInfo');
+
+    campoEmail.value = email;
+
+    campoIngresso.innerHTML =
+      '<option value="">Escolha...</option>' +
+      meus.map(ingresso => `
+        <option value="${esc(ingresso.codigo)}"${temPedido(ingresso.codigo) ? ' disabled' : ''}>
+          ${esc(ingresso.evento)} · ${esc(ingresso.categoria)} · ${esc(ingresso.codigo)}${temPedido(ingresso.codigo) ? ' (reembolso solicitado)' : ''}
+        </option>`).join('') +
+      '<option value="outro">Outro ingresso (informe nos detalhes)</option>';
+
+    const diasDesde = iso => Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+
+    function atualizarAviso() {
+      const ingresso = meus.find(i => i.codigo === campoIngresso.value);
+
+      campoDetalhes.required = campoIngresso.value === 'outro';
+      info.hidden = true;
+      if (!ingresso) return;
+
+      const dias = diasDesde(ingresso.compradoEm);
+      const quando = dias === 0 ? 'hoje' : dias === 1 ? 'há 1 dia' : `há ${dias} dias`;
+      const dentroDoPrazo = dias <= PRAZO_ARREPENDIMENTO;
+
+      info.className = 'card reem-info ' + (dentroDoPrazo ? 'ok' : 'aviso');
+      info.innerHTML = dentroDoPrazo
+        ? `<b>Dentro do prazo.</b> Você comprou este ingresso ${quando} e ainda pode desistir
+           (prazo de ${PRAZO_ARREPENDIMENTO} dias), com devolução integral.`
+        : `<b>Prazo de desistência encerrado.</b> Você comprou este ingresso ${quando}, e o prazo de
+           ${PRAZO_ARREPENDIMENTO} dias já passou. Você ainda pode pedir reembolso se o evento foi
+           cancelado, adiado ou alterado.`;
+      info.hidden = false;
+    }
+
+    campoIngresso.addEventListener('change', atualizarAviso);
+    atualizarAviso();
+
+    formulario.addEventListener('submit', evento => {
+      evento.preventDefault();
+
+      const campos = formulario.querySelectorAll('input, select, textarea');
+      if (!validarCampos(campos)) return;
+
+      const ingresso = meus.find(i => i.codigo === campoIngresso.value);
+      const motivoTexto = campoMotivo.options[campoMotivo.selectedIndex].text;
+
+      // Ainda não há servidor: o pedido fica guardado neste navegador.
+      pedidos.push({
+        codigo: ingresso ? ingresso.codigo : 'outro',
+        evento: ingresso ? ingresso.evento : '',
+        motivo: campoMotivo.value,
+        motivoTexto,
+        detalhes: campoDetalhes.value.trim(),
+        email: campoEmail.value.trim().toLowerCase(),
+        status: 'em análise',
+        criadoEm: new Date().toISOString(),
+      });
+      salvarReembolsos(pedidos);
+
+      document.getElementById('reemCard').innerHTML = `
+        <div class="sucesso">
+          <span class="tag green">Pedido enviado</span>
+          <h3>Recebemos seu pedido de reembolso</h3>
+          <p class="small">
+            ${ingresso ? `Ingresso: <b>${esc(ingresso.evento)}</b> (${esc(ingresso.codigo)}).<br>` : ''}
+            Motivo: <b>${esc(motivoTexto)}</b>.<br>
+            Vamos analisar e responder pelo email ${esc(campoEmail.value.trim())}.
+          </p>
+          <a class="btn btn-primary" href="meus-ingressos.html">Ver meus ingressos</a>
+        </div>`;
     });
   },
 };
 
-
-// Páginas sem barra de navegação (login) marcam o lugar do logo com data-logo
 document.querySelectorAll('[data-logo]').forEach(el => { el.innerHTML = logoSvg(140, 41); });
 
 montarLayout();

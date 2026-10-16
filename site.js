@@ -1,4 +1,3 @@
-
 window.EVENTOS = [
   { id: 1, titulo: 'Show 1',               preco: 80,  data: 'Sábado · 20h'  },
   { id: 2, titulo: 'Show 2',               preco: 95,  data: 'Sexta · 22h'   },
@@ -10,6 +9,33 @@ window.EVENTOS = [
   { id: 8, titulo: 'Noite do Direito',     preco: 60,  data: 'Quinta · 22h'  },
   { id: 9, titulo: 'Sunset Campus',        preco: 85,  data: 'Domingo · 17h' },
 ];
+
+// Foto do evento: usa o campo "foto" se existir; senão, uma foto fixa do Picsum
+// (o "seed" garante que o mesmo evento sempre receba a mesma imagem).
+function fotoDe(evento, largura = 600, altura = 300) {
+  return evento.foto || `https://picsum.photos/seed/campuspass-${evento.id}/${largura}/${altura}`;
+}
+
+// Logo em SVG embutido na página: assim as cores seguem o tema claro/escuro
+// (um <img src="logo.svg"> não enxerga as variáveis de cor do CSS).
+// As cores vêm de --logo-main, --logo-line e --text, definidas no styles.css.
+function logoSvg(largura, altura) {
+  return `
+    <svg class="logo" viewBox="0 0 340 100" width="${largura}" height="${altura}"
+         role="img" aria-label="CampusPass" xmlns="http://www.w3.org/2000/svg">
+      <path class="logo-icon" d="M14 32 a10 10 0 0 1 10 -10 h30 a10 10 0 0 1 10 10 v6
+               a7 7 0 0 0 0 14 v6 a10 10 0 0 1 -10 10 h-30 a10 10 0 0 1 -10 -10
+               v-6 a7 7 0 0 0 0 -14 z"/>
+      <g class="logo-line" stroke-width="2.5" stroke-linecap="round">
+        <line x1="34" y1="24" x2="34" y2="30"/>
+        <line x1="34" y1="36" x2="34" y2="42"/>
+        <line x1="34" y1="48" x2="34" y2="54"/>
+        <line x1="34" y1="60" x2="34" y2="66"/>
+      </g>
+      <text class="logo-text" x="76" y="63" font-family="'Segoe UI', Arial, sans-serif"
+            font-size="38" font-weight="700">Campus<tspan class="logo-accent">Pass</tspan></text>
+    </svg>`;
+}
 
 function brl(valor) {
   return Number(valor).toLocaleString('pt-BR', {
@@ -36,6 +62,28 @@ function lerUsuarios() {
 
 function salvarUsuarios(usuarios) {
   localStorage.setItem('campuspass_users', JSON.stringify(usuarios));
+}
+
+// Ingressos comprados. Ainda não há servidor: ficam guardados neste navegador.
+function lerIngressos() {
+  try {
+    return JSON.parse(localStorage.getItem('campuspass_ingressos') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function salvarIngressos(ingressos) {
+  try {
+    localStorage.setItem('campuspass_ingressos', JSON.stringify(ingressos));
+  } catch (e) {}
+}
+
+// Código único de cada ingresso, por exemplo "CP-7KQ2M9XD" (sem letras parecidas, como O/0 e I/1)
+function gerarCodigo() {
+  const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const bytes = crypto.getRandomValues(new Uint8Array(8));
+  return 'CP-' + [...bytes].map(b => letras[b % letras.length]).join('');
 }
 
 function mostrarErro(elemento, mensagem) {
@@ -65,6 +113,7 @@ function montarLayout() {
   ativarMenuMobile();
   ativarBusca();
   ativarBotaoDeConta();
+  ativarTema();
 }
 
 function inserirBarraDeNavegacao() {
@@ -73,7 +122,7 @@ function inserirBarraDeNavegacao() {
       <div class="wrap nav-in">
 
         <a class="brand" href="index.html">
-          <img src="logo.svg" alt="CampusPass" width="140" height="41">
+          ${logoSvg(140, 41)}
         </a>
 
         <button class="burger" aria-label="Abrir menu" aria-expanded="false">☰</button>
@@ -85,8 +134,10 @@ function inserirBarraDeNavegacao() {
             <button class="btn btn-primary">Buscar</button>
           </form>
 
-          <a href="#">Suporte</a>
+          <a href="central-de-suporte.html">Suporte</a>
           <a id="conta" href="login.html">Entre / Cadastre-se</a>
+
+          <button class="theme-btn" id="tema" type="button" aria-label="Alternar tema"></button>
         </div>
 
       </div>
@@ -103,22 +154,22 @@ function inserirRodape() {
         <div class="foot-grid">
           <div>
             <span class="chip">
-              <img src="logo.svg" alt="CampusPass" width="120" height="35">
+              ${logoSvg(120, 35)}
             </span>
             <p>Os melhores rolês da sua universidade, em um só lugar.</p>
           </div>
 
           <div>
             <h4>Institucional</h4>
-            <a href="#">Sobre nós</a>
-            <a href="#">Trabalhe conosco</a>
-            <a href="#">Termos de uso</a>
+            <a href="sobre-nos.html">Sobre nós</a>
+            <a href="trabalhe-conosco.html">Trabalhe conosco</a>
+            <a href="termos.html">Termos de uso e privacidade</a>
           </div>
 
           <div>
             <h4>Ajuda</h4>
-            <a href="#">Central de suporte</a>
-            <a href="#">Meus ingressos</a>
+            <a href="central-de-suporte.html">Central de suporte</a>
+            <a href="meus-ingressos.html">Meus ingressos</a>
             <a href="#">Reembolso</a>
           </div>
 
@@ -133,6 +184,7 @@ function inserirRodape() {
 
         <div class="foot-end">
           <span>© 2026 CampusPass. Todos os direitos reservados.</span>
+          <a class="foot-end-link" href="termos.html">Termos de uso e privacidade</a>
           <span>CNPJ 60.589.329/0001-61</span>
         </div>
 
@@ -140,6 +192,36 @@ function inserirRodape() {
     </footer>`;
 
   document.body.insertAdjacentHTML('beforeend', html);
+}
+
+// Tema claro/escuro: começa pelo tema do sistema e guarda a escolha da pessoa.
+// (O <script> no <head> de cada página aplica o tema salvo antes de a página
+// aparecer, para não piscar.)
+function ativarTema() {
+  const raiz = document.documentElement;
+  const botao = document.getElementById('tema');
+  const sistemaEscuro = matchMedia('(prefers-color-scheme: dark)');
+
+  const temaAtual = () => raiz.dataset.theme || (sistemaEscuro.matches ? 'dark' : 'light');
+
+  function atualizarBotao() {
+    const escuro = temaAtual() === 'dark';
+    botao.textContent = escuro ? '☀' : '☾';
+    botao.setAttribute('aria-label', escuro ? 'Mudar para o tema claro' : 'Mudar para o tema escuro');
+    botao.title = botao.getAttribute('aria-label');
+  }
+
+  botao.addEventListener('click', () => {
+    const novo = temaAtual() === 'dark' ? 'light' : 'dark';
+    raiz.dataset.theme = novo;
+    try { localStorage.setItem('campuspass_tema', novo); } catch (e) {}
+    atualizarBotao();
+  });
+
+  // Se a pessoa nunca escolheu, acompanha o sistema quando ele muda
+  sistemaEscuro.addEventListener('change', atualizarBotao);
+
+  atualizarBotao();
 }
 
 function ativarMenuMobile() {
@@ -184,6 +266,86 @@ function ativarBotaoDeConta() {
 }
 
 
+function montarCarrossel() {
+  const carrossel = document.querySelector('.carousel');
+  if (!carrossel) return;
+
+  const IDS_DESTAQUE = [4, 5, 9];   // ids dos eventos que viram slides
+  const INTERVALO = 9000;   // tempo entre slides (ms)
+
+  const trilho = carrossel.querySelector('.carousel-track');
+  const pontos = carrossel.querySelector('.car-dots');
+
+  // Cria um slide para cada evento em destaque
+  EVENTOS.filter(e => IDS_DESTAQUE.includes(e.id)).forEach(evento => {
+    trilho.insertAdjacentHTML('beforeend', `
+      <article class="hero slide" style="--foto:url('${fotoDe(evento, 1200, 520)}')">
+        <span class="tag yellow">${esc(evento.data)}</span>
+        <h2>${esc(evento.titulo)}</h2>
+        <p>Ingressos a partir de ${brl(evento.preco)}.</p>
+        <a class="btn btn-yellow"
+           href="comprar.html?evento=${encodeURIComponent(evento.id)}">Comprar ingresso</a>
+      </article>`);
+  });
+
+  const slides = [...carrossel.querySelectorAll('.slide')];
+  let atual = 0;
+  let timer = null;
+
+  // Uma bolinha por slide
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', `Ir para o slide ${i + 1}`);
+    b.addEventListener('click', () => { ir(i); reiniciar(); });
+    pontos.appendChild(b);
+  });
+  const bolinhas = [...pontos.children];
+
+  function ir(i) {
+    atual = (i + slides.length) % slides.length;
+    trilho.style.transform = `translateX(-${atual * 100}%)`;
+    bolinhas.forEach((b, n) => b.classList.toggle('active', n === atual));
+    // slides escondidos não entram na ordem do Tab
+    slides.forEach((s, n) => s.toggleAttribute('inert', n !== atual));
+  }
+
+  const semAnimacao = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function iniciar()   { if (!semAnimacao) timer = setInterval(() => ir(atual + 1), INTERVALO); }
+  function parar()     { clearInterval(timer); }
+  function reiniciar() { parar(); iniciar(); }
+
+  carrossel.querySelector('.prev').addEventListener('click', () => { ir(atual - 1); reiniciar(); });
+  carrossel.querySelector('.next').addEventListener('click', () => { ir(atual + 1); reiniciar(); });
+
+  // Pausa com mouse ou foco em cima
+  carrossel.addEventListener('mouseenter', parar);
+  carrossel.addEventListener('mouseleave', iniciar);
+  carrossel.addEventListener('focusin', parar);
+  carrossel.addEventListener('focusout', iniciar);
+
+  // Arrastar no celular
+  let x0 = null;
+  carrossel.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; parar(); }, { passive: true });
+  carrossel.addEventListener('touchend', e => {
+    if (x0 !== null) {
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 50) ir(atual + (dx < 0 ? 1 : -1));
+    }
+    x0 = null;
+    iniciar();
+  });
+
+  // Setas do teclado
+  carrossel.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  { ir(atual - 1); reiniciar(); }
+    if (e.key === 'ArrowRight') { ir(atual + 1); reiniciar(); }
+  });
+
+  ir(0);
+  iniciar();
+}
+
+
 const paginas = {
 
   index() {
@@ -201,7 +363,7 @@ const paginas = {
 
       return `
         <article class="ev">
-          <div class="ev-top">
+          <div class="ev-top" style="--foto:url('${fotoDe(evento)}')">
             ${seloUrgencia}
             ${seloData}
           </div>
@@ -238,6 +400,7 @@ const paginas = {
     };
 
     mostrar(EVENTOS);
+    montarCarrossel();
   },
 
   login() {
@@ -314,6 +477,8 @@ const paginas = {
 
     document.getElementById('titulo').textContent = evento.titulo;
     document.title = `${evento.titulo} · CampusPass`;
+    document.querySelector('.ev-head .art')
+      .style.setProperty('--foto', `url('${fotoDe(evento, 480, 320)}')`);
 
     const linhas = [...document.querySelectorAll('.row')]; 
     const botaoFinalizar = document.getElementById('fin');
@@ -433,9 +598,35 @@ const paginas = {
         </div>`;
     }
 
+    // Guarda um ingresso para cada unidade comprada (cada um com código próprio),
+    // para aparecerem em "Meus ingressos".
+    function salvarCompra(comprados) {
+      const dono = localStorage.getItem('campuspass_token') || '';
+      const novos = [];
+
+      comprados.forEach(linha => {
+        for (let i = 0; i < quantidadeDe(linha); i++) {
+          novos.push({
+            codigo: gerarCodigo(),
+            eventoId: evento.id,
+            evento: evento.titulo,
+            data: evento.data,
+            categoria: nomeDe(linha),
+            preco: precoDe(linha),
+            dono,
+            compradoEm: new Date().toISOString(),
+          });
+        }
+      });
+
+      salvarIngressos([...lerIngressos(), ...novos]);
+    }
+
     function ativarConfirmacao() {
       botaoFinalizar.onclick = () => {
         const comprados = linhas.filter(linha => quantidadeDe(linha) > 0);
+
+        salvarCompra(comprados);
 
         document.getElementById('tks').innerHTML = comprados.map(montarIngresso).join('');
         janela.showModal();
@@ -453,8 +644,372 @@ const paginas = {
     ativarConfirmacao();
     atualizarResumo();
   },
+
+  trabalhe() {
+    // Para abrir, fechar ou editar vagas, mexa só nesta lista.
+    const VAGAS = [
+      { id: 'dev-front', titulo: 'Desenvolvedor(a) Front-end', area: 'Tecnologia',
+        modelo: 'Remoto', tipo: 'Estágio',
+        descricao: 'Construa telas rápidas e acessíveis para quem compra ingresso pelo celular.' },
+      { id: 'suporte', titulo: 'Analista de Suporte ao Cliente', area: 'Atendimento',
+        modelo: 'Híbrido', tipo: 'Meio período',
+        descricao: 'Ajude compradores e organizadores com dúvidas, reembolsos e ingressos.' },
+      { id: 'parcerias', titulo: 'Parcerias com Atléticas', area: 'Comercial',
+        modelo: 'Presencial', tipo: 'Meio período',
+        descricao: 'Aproxime atléticas e centros acadêmicos do CampusPass e acompanhe os eventos.' },
+      { id: 'embaixador', titulo: 'Embaixador(a) de Campus', area: 'Comunidade',
+        modelo: 'Na sua universidade', tipo: 'Freelancer',
+        descricao: 'Seja a cara do CampusPass na sua faculdade e divulgue os rolês do campus.' },
+    ];
+
+    const lista = document.getElementById('listaVagas');
+    const formulario = document.getElementById('f');
+    const campoVaga = document.getElementById('tvaga');
+    const campoNome = document.getElementById('tnome');
+    const sembanco = 'banco-de-talentos';
+
+    // Cada vaga é um "ingresso": corpo em cima, picote no meio e rodapé com o botão
+    lista.innerHTML = VAGAS.map((vaga, i) => `
+      <article class="vaga-ticket" data-area="${esc(vaga.area)}">
+        <div class="vt-top">
+          <span class="vt-num">${String(i + 1).padStart(2, '0')}</span>
+          <span class="tag yellow">${esc(vaga.area)}</span>
+        </div>
+        <h3>${esc(vaga.titulo)}</h3>
+        <p class="small">${esc(vaga.descricao)}</p>
+
+        <div class="vt-line"><i></i><i></i></div>
+
+        <div class="vt-foot">
+          <div class="vt-meta">
+            <b>${esc(vaga.modelo)}</b>
+            <span class="small">${esc(vaga.tipo)}</span>
+          </div>
+          <button class="btn btn-primary" type="button" data-vaga="${esc(vaga.id)}">Candidatar-se</button>
+        </div>
+      </article>`).join('');
+
+    // Filtro por área: "Todas" mais uma opção para cada área que existir na lista
+    const filtros = document.getElementById('filtroVagas');
+    const areas = ['Todas', ...new Set(VAGAS.map(v => v.area))];
+
+    filtros.innerHTML = areas.map((area, i) =>
+      `<button type="button" aria-pressed="${i === 0}" data-area="${esc(area)}">${esc(area)}</button>`
+    ).join('');
+
+    filtros.addEventListener('click', evento => {
+      const botao = evento.target.closest('button');
+      if (!botao) return;
+
+      filtros.querySelectorAll('button')
+        .forEach(outro => outro.setAttribute('aria-pressed', outro === botao));
+
+      lista.querySelectorAll('.vaga-ticket').forEach(cartao => {
+        cartao.hidden = botao.dataset.area !== 'Todas' && cartao.dataset.area !== botao.dataset.area;
+      });
+    });
+
+    campoVaga.innerHTML =
+      '<option value="">Escolha...</option>' +
+      VAGAS.map(v => `<option value="${esc(v.id)}">${esc(v.titulo)}</option>`).join('') +
+      `<option value="${sembanco}">Banco de talentos (nenhuma vaga específica)</option>`;
+
+    // Clicar em "Candidatar-se" escolhe a vaga e leva para o formulário
+    lista.addEventListener('click', evento => {
+      const botao = evento.target.closest('[data-vaga]');
+      if (!botao) return;
+
+      campoVaga.value = botao.dataset.vaga;
+      const semAnimacao = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.getElementById('candidatura')
+        .scrollIntoView({ behavior: semAnimacao ? 'auto' : 'smooth', block: 'start' });
+      campoNome.focus({ preventScroll: true });
+    });
+
+    formulario.addEventListener('submit', evento => {
+      evento.preventDefault();
+
+      const campos = formulario.querySelectorAll('input, select, textarea');
+      if (!validarCampos(campos)) return;
+
+      // Ainda não há servidor: a candidatura fica guardada neste navegador.
+      const candidatura = {
+        nome: campoNome.value.trim(),
+        email: document.getElementById('temail').value.trim().toLowerCase(),
+        telefone: document.getElementById('ttel').value.trim(),
+        vaga: campoVaga.value,
+        link: document.getElementById('tlink').value.trim(),
+        mensagem: document.getElementById('tmsg').value.trim(),
+        enviadaEm: new Date().toISOString(),
+      };
+
+      try {
+        const guardadas = JSON.parse(localStorage.getItem('campuspass_candidaturas') || '[]');
+        guardadas.push(candidatura);
+        localStorage.setItem('campuspass_candidaturas', JSON.stringify(guardadas));
+      } catch (e) {}
+
+      const vaga = VAGAS.find(v => v.id === candidatura.vaga);
+      document.getElementById('formCard').innerHTML = `
+        <div class="sucesso">
+          <span class="tag green">Candidatura enviada</span>
+          <h3>Obrigado, ${esc(candidatura.nome.split(' ')[0])}!</h3>
+          <p class="small">
+            Recebemos sua candidatura para
+            <b>${esc(vaga ? vaga.titulo : 'o banco de talentos')}</b>.
+            Se o seu perfil combinar, entraremos em contato pelo email ${esc(candidatura.email)}.
+          </p>
+          <a class="btn btn-sec" href="index.html">Voltar para os eventos</a>
+        </div>`;
+    });
+  },
+
+  suporte() {
+    // Assuntos (os cartões do topo). "ico" é o texto curto dentro do círculo amarelo.
+    const CATEGORIAS = [
+      { id: 'compras',    nome: 'Compras e pagamento',      ico: 'R$' },
+      { id: 'ingressos',  nome: 'Meus ingressos',           ico: 'QR' },
+      { id: 'reembolso',  nome: 'Cancelamento e reembolso', ico: '↺'  },
+      { id: 'conta',      nome: 'Conta e cadastro',         ico: '@'  },
+      { id: 'seguranca',  nome: 'Segurança e golpes',       ico: '!'  },
+    ];
+
+    // Perguntas frequentes. Para editar, mexa só aqui.
+    // "resposta" aceita HTML (links, negrito); "pergunta" é sempre texto puro.
+    const FAQ = [
+      { cat: 'compras', pergunta: 'Quais formas de pagamento posso usar?',
+        resposta: 'Você pode pagar com Pix, cartão de crédito ou boleto bancário. Escolha a opção na seção “Forma de pagamento” da página de compra.' },
+      { cat: 'compras', pergunta: 'Existe taxa de serviço?',
+        resposta: 'Sim. O subtotal, a taxa de serviço e o total aparecem no resumo do pedido antes de você finalizar a compra, para você saber exatamente quanto vai pagar.' },
+      { cat: 'compras', pergunta: 'Posso parcelar no cartão?',
+        resposta: 'Pode. No cartão de crédito você escolhe o número de parcelas na hora do pagamento, de 1x a 3x sem juros.' },
+      { cat: 'compras', pergunta: 'Quanto tempo o boleto leva para ser confirmado?',
+        resposta: 'O boleto é enviado para o seu email depois da confirmação do pedido, e a compensação leva até 2 dias úteis. O ingresso é emitido depois da confirmação do pagamento.' },
+
+      { cat: 'ingressos', pergunta: 'Como recebo meu ingresso?',
+        resposta: 'Depois da confirmação do pagamento, o ingresso digital, com QR Code, é emitido em seu nome e enviado para o seu email.' },
+      { cat: 'ingressos', pergunta: 'Não recebi o ingresso. E agora?',
+        resposta: 'Veja a caixa de spam e confirme se o pagamento foi aprovado (no boleto, aguarde a compensação). Se continuar sem o ingresso, <a href="#contato">fale com a gente pelo formulário</a>.' },
+      { cat: 'ingressos', pergunta: 'Posso passar meu ingresso para outra pessoa ou revendê-lo?',
+        resposta: 'O ingresso é vinculado ao comprador e o mesmo código não pode ser duplicado, clonado ou revendido. A revenda especulativa (cambismo) também é proibida. Veja as <a href="termos.html#t7">condutas proibidas</a> nos Termos.' },
+
+      { cat: 'reembolso', pergunta: 'Posso desistir da compra?',
+        resposta: 'Sim. Nas compras pela internet você tem 7 dias, contados do recebimento do ingresso, para exercer o direito de arrependimento, com devolução integral dos valores pagos. Detalhes na <a href="termos.html#t6">cláusula 6 dos Termos</a>.' },
+      { cat: 'reembolso', pergunta: 'O evento foi cancelado ou adiado. O que eu faço?',
+        resposta: 'Se o cancelamento, o adiamento ou a mudança relevante for responsabilidade do Organizador, você pode escolher entre a reexecução do serviço, a restituição imediata e integral do valor pago ou o abatimento proporcional do preço. Para pedir, <a href="#contato">fale com a gente</a>.' },
+
+      { cat: 'conta', pergunta: 'Como crio minha conta?',
+        resposta: 'Clique em “Entre / Cadastre-se”, depois em “Cadastre-se” e preencha email, senha e endereço. Recomendamos usar o email da sua universidade.' },
+      { cat: 'conta', pergunta: 'Esqueci minha senha. Como recupero o acesso?',
+        resposta: 'Na tela de entrada, use o link “Esqueci minha senha”. Se não conseguir recuperar o acesso, <a href="#contato">fale com a gente</a>.' },
+      { cat: 'conta', pergunta: 'Menores de idade podem comprar?',
+        resposta: 'A contratação por menor de idade segue o Código Civil, e eventos com venda ou consumo de bebida alcoólica podem exigir a confirmação de maioridade (18 anos).' },
+      { cat: 'conta', pergunta: 'Como corrijo ou apago meus dados?',
+        resposta: 'Você pode pedir acesso, correção ou eliminação dos seus dados pelo canal de privacidade. Veja todos os seus <a href="termos.html#p6">direitos como titular</a> na Política de Privacidade.' },
+
+      { cat: 'seguranca', pergunta: 'Como saber se um ingresso é verdadeiro?',
+        resposta: 'Compre sempre pelo CampusPass: depois do pagamento, o ingresso é emitido com QR Code e vinculado a você. Desconfie de ofertas por redes sociais ou mensagens privadas, porque ingresso falso ou duplicado é golpe.' },
+      { cat: 'seguranca', pergunta: 'Caí em um golpe. O que devo fazer?',
+        resposta: 'Aja rápido: <b>(1)</b> reúna as provas (comprovantes, prints, QR Code); <b>(2)</b> avise seu banco para tentar o bloqueio cautelar (até 72h) e acionar o MED, se pagou por Pix; <b>(3)</b> registre um Boletim de Ocorrência; <b>(4)</b> denuncie pelo <a href="#contato">formulário</a>, escolhendo “Denunciar golpe ou fraude”. O <a href="termos.html#f3">passo a passo completo</a> está nos Termos.' },
+      { cat: 'seguranca', pergunta: 'Como denunciar um organizador ou ingresso suspeito?',
+        resposta: 'Use o <a href="#contato">formulário</a> e escolha “Denunciar golpe ou fraude”. Podemos suspender contas, reter valores em disputa e preservar os registros de acesso para as autoridades.' },
+    ];
+
+    const estado = { cat: 'todas', q: '' };
+
+    const campoBusca = document.getElementById('supBusca');
+    const caixaCats = document.getElementById('supCats');
+    const caixaFaq = document.getElementById('listaFaq');
+    const vazio = document.getElementById('faqVazio');
+    const titulo = document.getElementById('faqTitulo');
+    const contagem = document.getElementById('faqContagem');
+
+    // Sem acento e em minúsculas, para "reembolso" achar "Reembolsó" e vice-versa
+    const normalizar = texto =>
+      String(texto).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const semTags = html => html.replace(/<[^>]*>/g, ' ');
+
+    caixaCats.innerHTML = CATEGORIAS.map(cat => {
+      const total = FAQ.filter(p => p.cat === cat.id).length;
+      return `
+        <button class="sup-cat" type="button" data-cat="${cat.id}" aria-pressed="false">
+          <span class="sup-ico" aria-hidden="true">${esc(cat.ico)}</span>
+          <b>${esc(cat.nome)}</b>
+          <span class="small">${total} ${total === 1 ? 'pergunta' : 'perguntas'}</span>
+        </button>`;
+    }).join('');
+
+    caixaFaq.innerHTML = FAQ.map(item => `
+      <details class="faq-item">
+        <summary>${esc(item.pergunta)}</summary>
+        <div class="faq-resp">${item.resposta}</div>
+      </details>`).join('');
+
+    const itens = [...caixaFaq.children].map((elemento, i) => ({
+      elemento,
+      cat: FAQ[i].cat,
+      texto: normalizar(FAQ[i].pergunta + ' ' + semTags(FAQ[i].resposta)),
+    }));
+
+    function atualizar() {
+      const busca = normalizar(estado.q.trim());
+      let visiveis = 0;
+
+      itens.forEach(item => {
+        const mostrar = (estado.cat === 'todas' || item.cat === estado.cat)
+                     && (!busca || item.texto.includes(busca));
+        item.elemento.hidden = !mostrar;
+        if (mostrar) visiveis++;
+      });
+
+      caixaCats.querySelectorAll('.sup-cat').forEach(botao =>
+        botao.setAttribute('aria-pressed', botao.dataset.cat === estado.cat));
+
+      const categoria = CATEGORIAS.find(c => c.id === estado.cat);
+      titulo.textContent = categoria ? categoria.nome : 'Perguntas frequentes';
+      contagem.textContent = `${visiveis} ${visiveis === 1 ? 'resultado' : 'resultados'}`;
+      caixaFaq.hidden = visiveis === 0;
+      vazio.hidden = visiveis !== 0;
+    }
+
+    campoBusca.addEventListener('input', () => { estado.q = campoBusca.value; atualizar(); });
+    campoBusca.closest('form').addEventListener('submit', evento => evento.preventDefault());
+
+    // Clicar no assunto filtra; clicar de novo no mesmo volta para todos
+    caixaCats.addEventListener('click', evento => {
+      const botao = evento.target.closest('.sup-cat');
+      if (!botao) return;
+
+      estado.cat = estado.cat === botao.dataset.cat ? 'todas' : botao.dataset.cat;
+      atualizar();
+    });
+
+    document.getElementById('limparFiltros').addEventListener('click', () => {
+      estado.cat = 'todas';
+      estado.q = '';
+      campoBusca.value = '';
+      atualizar();
+    });
+
+    atualizar();
+
+    // ---------- Formulário de contato ----------
+    const formulario = document.getElementById('f');
+
+    formulario.addEventListener('submit', evento => {
+      evento.preventDefault();
+
+      const campos = formulario.querySelectorAll('input, select, textarea');
+      if (!validarCampos(campos)) return;
+
+      // Ainda não há servidor: a mensagem fica guardada neste navegador.
+      const mensagem = {
+        nome: document.getElementById('sNome').value.trim(),
+        email: document.getElementById('sEmail').value.trim().toLowerCase(),
+        assunto: document.getElementById('sAssunto').value,
+        pedido: document.getElementById('sPedido').value.trim(),
+        texto: document.getElementById('sMsg').value.trim(),
+        enviadaEm: new Date().toISOString(),
+      };
+
+      try {
+        const guardadas = JSON.parse(localStorage.getItem('campuspass_mensagens') || '[]');
+        guardadas.push(mensagem);
+        localStorage.setItem('campuspass_mensagens', JSON.stringify(guardadas));
+      } catch (e) {}
+
+      document.getElementById('supCard').innerHTML = `
+        <div class="sucesso">
+          <span class="tag green">Mensagem enviada</span>
+          <h3>Obrigado, ${esc(mensagem.nome.split(' ')[0])}!</h3>
+          <p class="small">
+            Recebemos sua mensagem sobre <b>${esc(mensagem.assunto)}</b> e vamos responder
+            pelo email ${esc(mensagem.email)}.
+          </p>
+          <a class="btn btn-sec" href="index.html">Voltar para os eventos</a>
+        </div>`;
+    });
+  },
+
+  ingressos() {
+    const lista = document.getElementById('listaIngressos');
+    const vazio = document.getElementById('ingVazio');
+    const contagem = document.getElementById('ingContagem');
+    const dialogo = document.getElementById('qrDialog');
+
+    // Quem está logado vê os próprios ingressos e os comprados sem login neste navegador
+    const email = localStorage.getItem('campuspass_token') || '';
+    const meus = lerIngressos()
+      .filter(ingresso => ingresso.dono === email || ingresso.dono === '')
+      .reverse();   // o mais recente primeiro
+
+    const urlQr = (codigo, tamanho) =>
+      `https://api.qrserver.com/v1/create-qr-code/?size=${tamanho}x${tamanho}&margin=0&data=${encodeURIComponent(codigo)}`;
+    const dataBr = iso => new Date(iso).toLocaleDateString('pt-BR');
+
+    contagem.textContent = `${meus.length} ${meus.length === 1 ? 'ingresso' : 'ingressos'}`;
+
+    if (meus.length === 0) {
+      lista.hidden = true;
+      vazio.hidden = false;
+      return;
+    }
+
+    lista.innerHTML = meus.map(ingresso => `
+      <article class="ing">
+        <div class="ing-main">
+          <div class="ing-top">
+            <span class="tag yellow">${esc(ingresso.data)}</span>
+            <span class="tag green">Confirmado</span>
+          </div>
+          <h3>${esc(ingresso.evento)}</h3>
+          <dl class="ing-dados">
+            <div><dt>Categoria</dt><dd>${esc(ingresso.categoria)}</dd></div>
+            <div><dt>Valor</dt><dd>${brl(ingresso.preco)}</dd></div>
+            <div><dt>Comprado em</dt><dd>${esc(dataBr(ingresso.compradoEm))}</dd></div>
+            <div><dt>Código</dt><dd class="ing-cod">${esc(ingresso.codigo)}</dd></div>
+          </dl>
+        </div>
+
+        <div class="ing-stub">
+          <button class="ing-qr" type="button" data-codigo="${esc(ingresso.codigo)}"
+                  aria-label="Ampliar o QR Code do ingresso ${esc(ingresso.codigo)}">
+            <img src="${urlQr(ingresso.codigo, 140)}" alt="QR Code do ingresso ${esc(ingresso.codigo)}"
+                 width="120" height="120">
+          </button>
+          <span class="small">Toque para ampliar</span>
+        </div>
+      </article>`).join('');
+
+    // Abre o QR Code grande, para mostrar na portaria
+    lista.addEventListener('click', evento => {
+      const botao = evento.target.closest('.ing-qr');
+      if (!botao) return;
+
+      const ingresso = meus.find(i => i.codigo === botao.dataset.codigo);
+      if (!ingresso) return;
+
+      document.getElementById('qrTitulo').textContent = ingresso.evento;
+      document.getElementById('qrCategoria').textContent = `${ingresso.data} · ${ingresso.categoria}`;
+      document.getElementById('qrCodigo').textContent = ingresso.codigo;
+
+      const imagem = document.getElementById('qrImg');
+      imagem.src = urlQr(ingresso.codigo, 260);
+      imagem.alt = `QR Code do ingresso ${ingresso.codigo}`;
+
+      dialogo.showModal();
+    });
+
+    document.getElementById('qrFechar').addEventListener('click', () => dialogo.close());
+    dialogo.addEventListener('click', evento => {
+      if (evento.target === dialogo) dialogo.close();   // clicar fora fecha
+    });
+  },
 };
 
+
+// Páginas sem barra de navegação (login) marcam o lugar do logo com data-logo
+document.querySelectorAll('[data-logo]').forEach(el => { el.innerHTML = logoSvg(140, 41); });
 
 montarLayout();
 

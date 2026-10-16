@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>try{var t=localStorage.getItem('campuspass_tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Trabalhe conosco · Campus Pass</title>
+</head>
+<body data-page="trabalhe">
+<main class="wrap">
+
+  <header class="trab-intro">
+    <div class="trab-text">
+      <span class="tag yellow">Estamos contratando</span>
+      <h1>Faça o rolê <mark class="marca">acontecer</mark> com a gente.</h1>
+      <p class="lead">
+        O CampusPass é feito por gente que vive a vida universitária. Veja as vagas
+        abertas ou entre para o nosso banco de talentos.
+      </p>
+      <div class="trab-cta">
+        <a class="btn btn-primary" href="#vagas">Ver vagas</a>
+        <a class="btn btn-sec" href="#candidatura">Banco de talentos</a>
+      </div>
+    </div>
+
+    <div class="trab-fotos" aria-hidden="true">
+      <img src="https://picsum.photos/seed/campuspass-trabalhe-1/600/800" alt="" width="600" height="800">
+      <img src="https://picsum.photos/seed/campuspass-trabalhe-2/600/400" alt="" width="600" height="400" loading="lazy">
+      <img src="https://picsum.photos/seed/campuspass-trabalhe-3/600/400" alt="" width="600" height="400" loading="lazy">
+      <span class="trab-selo">Vem pro time</span>
+    </div>
+  </header>
+
+  <section class="page-section" id="porque">
+    <div class="sec-head">
+      <h2>Por que trabalhar aqui</h2>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <h3>Horário que cabe na faculdade</h3>
+        <p class="small">Escalas flexíveis pensadas para quem estuda. Semana de prova é semana de prova, e a gente entende.</p>
+      </article>
+      <article class="card">
+        <h3>Aprenda fazendo</h3>
+        <p class="small">Você trabalha em um produto real, usado por gente de verdade, com colegas mais experientes por perto para ensinar.</p>
+      </article>
+      <article class="card">
+        <h3>Ingressos e rolês</h3>
+        <p class="small">Condições especiais em eventos parceiros e a chance de conhecer os bastidores de festas universitárias.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="page-section" id="vagas">
+    <div class="sec-head">
+      <h2>Vagas abertas</h2>
+    </div>
+    <div class="filtros" id="filtroVagas" role="group" aria-label="Filtrar vagas por área"></div>
+    <div class="vagas" id="listaVagas"></div>
+  </section>
+
+  <section class="page-section" id="candidatura">
+    <div class="sec-head">
+      <h2>Candidate-se</h2>
+    </div>
+    <div class="card" id="formCard">
+      <form id="f" novalidate>
+        <div class="form-grid">
+          <div class="field s3">
+            <label for="tnome">Nome completo</label>
+            <input class="in" id="tnome" autocomplete="name" required>
+            <span class="msg">Informe seu nome</span>
+          </div>
+          <div class="field s3">
+            <label for="temail">Email</label>
+            <input class="in" type="email" id="temail" placeholder="exemplo@mail.com" autocomplete="email" required>
+            <span class="msg">Email inválido</span>
+          </div>
+          <div class="field s3">
+            <label for="ttel">Telefone <span class="hint">(opcional)</span></label>
+            <input class="in" type="tel" id="ttel" placeholder="(00) 00000-0000" autocomplete="tel">
+          </div>
+          <div class="field s3">
+            <label for="tvaga">Vaga de interesse</label>
+            <select class="in" id="tvaga" required></select>
+            <span class="msg">Escolha uma vaga</span>
+          </div>
+          <div class="field s6">
+            <label for="tlink">Link do currículo, LinkedIn ou portfólio <span class="hint">(opcional)</span></label>
+            <input class="in" type="url" id="tlink" placeholder="https://">
+            <span class="msg">Informe um link válido, começando com https://</span>
+          </div>
+          <div class="field s6">
+            <label for="tmsg">Conte um pouco sobre você</label>
+            <textarea class="in" id="tmsg" rows="5" maxlength="1000" required
+                      placeholder="Curso, o que você já fez, por que quer trabalhar no Campus Pass..."></textarea>
+            <span class="msg">Escreva uma mensagem curta</span>
+          </div>
+          <div class="field s6">
+            <label style="display:flex;gap:8px;align-items:flex-start;font-weight:400">
+              <input type="checkbox" id="tlgpd" required style="width:18px;height:18px;margin-top:2px;accent-color:var(--violet)">
+              <span>Concordo em compartilhar meus dados para o processo seletivo, conforme a
+                <a href="termos.html#parte-2" target="_blank" rel="noopener" style="color:var(--link)">Política de Privacidade</a>.</span>
+            </label>
+            <span class="msg">Você precisa concordar para enviar</span>
+          </div>
+        </div>
+        <div style="margin-top:24px">
+          <button class="btn btn-primary" type="submit">Enviar candidatura</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+<script src="site.js"></script>
+</body>
+</html>

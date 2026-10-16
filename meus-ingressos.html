@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>try{var t=localStorage.getItem('campuspass_tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Meus ingressos · CampusPass</title>
+</head>
+<body data-page="ingressos">
+<main class="wrap">
+
+  <header class="ing-head">
+    <div>
+      <h1>Meus ingressos</h1>
+      <p class="small">Mostre o QR Code na portaria. Por enquanto, seus ingressos ficam salvos neste navegador.</p>
+    </div>
+    <span class="tag yellow" id="ingContagem">0 ingressos</span>
+  </header>
+
+  <section class="page-section" aria-label="Lista de ingressos">
+    <div class="ingressos" id="listaIngressos"></div>
+
+    <div class="card ing-vazio" id="ingVazio" hidden>
+      <h3>Você ainda não tem ingressos</h3>
+      <p class="small">Quando você comprar, eles aparecem aqui com o QR Code para a portaria.</p>
+      <a class="btn btn-primary" href="index.html#eventos">Ver eventos</a>
+    </div>
+  </section>
+
+  <aside class="card ing-ajuda">
+    <div>
+      <h3>Algum problema com o seu ingresso?</h3>
+      <p class="small">Não recebeu, quer desistir da compra ou o evento mudou? A gente ajuda.</p>
+    </div>
+    <div class="trab-cta">
+      <a class="btn btn-sec" href="central-de-suporte.html#faq">Perguntas frequentes</a>
+      <a class="btn btn-primary" href="central-de-suporte.html#contato">Falar com o suporte</a>
+    </div>
+  </aside>
+
+</main>
+
+<dialog id="qrDialog">
+  <h3 id="qrTitulo"></h3>
+  <p class="small" id="qrCategoria"></p>
+  <img class="qr-grande" id="qrImg" alt="" width="260" height="260">
+  <p class="ing-cod" id="qrCodigo"></p>
+  <button class="btn btn-primary" id="qrFechar" type="button">Fechar</button>
+</dialog>
+
+<script src="site.js"></script>
+</body>
+</html>

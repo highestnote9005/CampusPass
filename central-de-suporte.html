@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>try{var t=localStorage.getItem('campuspass_tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Central de suporte · Campus Pass</title>
+</head>
+<body data-page="suporte">
+<main class="wrap">
+
+  <header class="sup-intro">
+    <span class="tag yellow">Central de suporte</span>
+    <h1>Como podemos <mark class="marca">ajudar</mark>?</h1>
+    <p class="lead">Procure sua dúvida ou escolha um assunto. Se não achar, fale com a gente.</p>
+
+    <form class="sup-busca" id="supForm" role="search">
+      <input class="in" type="search" id="supBusca" autocomplete="off"
+             placeholder="Ex.: reembolso, boleto, QR Code" aria-label="Buscar nas perguntas frequentes">
+    </form>
+  </header>
+
+  <section class="page-section" aria-label="Assuntos">
+    <div class="sup-cats" id="supCats"></div>
+  </section>
+
+  <section class="page-section" id="faq">
+    <div class="sec-head">
+      <h2 id="faqTitulo">Perguntas frequentes</h2>
+      <span class="small" id="faqContagem"></span>
+    </div>
+    <div class="faq" id="listaFaq"></div>
+    <div class="card faq-vazio" id="faqVazio" hidden>
+      <h3>Não encontramos essa pergunta</h3>
+      <p class="small">Tente outras palavras, escolha outro assunto ou fale direto com a gente.</p>
+      <div class="trab-cta">
+        <button class="btn btn-sec" type="button" id="limparFiltros">Limpar filtros</button>
+        <a class="btn btn-primary" href="#contato">Falar com o suporte</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" id="contato">
+    <div class="sec-head">
+      <h2>Fale com a gente</h2>
+    </div>
+
+    <aside class="card aviso-golpe">
+      <h3>Caiu em um golpe ou viu algo suspeito?</h3>
+      <p class="small">
+        Aja rápido: junte as provas, avise seu banco e registre um Boletim de Ocorrência. Depois,
+        denuncie pelo formulário abaixo escolhendo “Denunciar golpe ou fraude”, para suspendermos a conta
+        e preservarmos os registros. O
+        <a href="termos.html#f3">passo a passo completo</a> está nos Termos.
+      </p>
+    </aside>
+
+    <div class="card" id="supCard">
+      <form id="f" novalidate>
+        <div class="form-grid">
+          <div class="field s3">
+            <label for="sNome">Nome completo</label>
+            <input class="in" id="sNome" autocomplete="name" required>
+            <span class="msg">Informe seu nome</span>
+          </div>
+          <div class="field s3">
+            <label for="sEmail">Email</label>
+            <input class="in" type="email" id="sEmail" placeholder="exemplo@mail.com" autocomplete="email" required>
+            <span class="msg">Email inválido</span>
+          </div>
+          <div class="field s3">
+            <label for="sAssunto">Assunto</label>
+            <select class="in" id="sAssunto" required>
+              <option value="">Escolha...</option>
+              <option>Compra e pagamento</option>
+              <option>Não recebi meu ingresso</option>
+              <option>Cancelamento ou reembolso</option>
+              <option>Conta e cadastro</option>
+              <option>Denunciar golpe ou fraude</option>
+              <option>Outro assunto</option>
+            </select>
+            <span class="msg">Escolha um assunto</span>
+          </div>
+          <div class="field s3">
+            <label for="sPedido">Evento ou nº do pedido <span class="hint">(opcional)</span></label>
+            <input class="in" id="sPedido" placeholder="Ex.: Festival de Inverno">
+          </div>
+          <div class="field s6">
+            <label for="sMsg">Como podemos ajudar?</label>
+            <textarea class="in" id="sMsg" rows="5" maxlength="1500" required
+                      placeholder="Conte o que aconteceu. Quanto mais detalhes, mais rápido conseguimos ajudar."></textarea>
+            <span class="msg">Escreva sua mensagem</span>
+          </div>
+        </div>
+        <p class="small" style="margin-top:16px">
+          Usamos seus dados só para responder esta solicitação. Veja a
+          <a href="termos.html#parte-2" target="_blank" rel="noopener" style="color:var(--link)">Política de Privacidade</a>.
+        </p>
+        <div style="margin-top:16px">
+          <button class="btn btn-primary" type="submit">Enviar mensagem</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+<script src="site.js"></script>
+</body>
+</html>

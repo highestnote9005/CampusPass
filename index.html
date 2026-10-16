@@ -5,16 +5,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>try{var t=localStorage.getItem('campuspass_tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
   <link rel="stylesheet" href="styles.css">
   <title>CampusPass</title>
 </head>
 <body data-page="index">
 <main class="wrap">
-  <section class="hero">
-    <span class="tag yellow">Sábado · 22h</span>
-    <h1>Seu próximo rolê está a um clique.</h1>
-    <p>Ingressos para as festas e eventos da sua universidade, com Pix, cartão ou boleto.</p>
-    <a class="btn btn-yellow" href="#eventos">Ver eventos</a>
+  <section class="carousel" aria-roledescription="carrossel" aria-label="Destaques" tabindex="0">
+    <div class="carousel-track">
+      <article class="hero slide" style="--foto:url('https://picsum.photos/seed/campuspass-hero/1200/520')">
+        <span class="tag yellow">Sábado · 22h</span>
+        <h1>Seu próximo rolê está a um clique.</h1>
+        <p>Ingressos para as festas e eventos da sua universidade, com Pix, cartão ou boleto.</p>
+        <a class="btn btn-yellow" href="#eventos">Ver eventos</a>
+      </article>
+    </div>
+    <button class="car-btn prev" aria-label="Slide anterior">‹</button>
+    <button class="car-btn next" aria-label="Próximo slide">›</button>
+    <div class="car-dots"></div>
   </section>
   <section id="eventos">
     <div class="sec-head">

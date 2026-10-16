@@ -9,6 +9,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet">
+  <script>try{var t=localStorage.getItem('campuspass_tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
   <link rel="stylesheet" href="styles.css">
   <title>Comprar ingresso · CampusPass</title>
 </head>
@@ -147,6 +148,10 @@
           </div>
         </div>
         <button class="btn btn-primary btn-block" id="fin" disabled>Finalizar compra</button>
+        <p class="small legal-note">
+          Ao finalizar, você concorda com os
+          <a href="termos.html" target="_blank" rel="noopener">Termos de uso e a Política de Privacidade</a>.
+        </p>
       </aside>
     </div>
   </main>
@@ -154,7 +159,10 @@
     <h3>Compra confirmada!</h3>
     <p class="small">Seus ingressos foram enviados para o seu email.</p>
     <div class="tks" id="tks"></div>
-    <button class="btn btn-primary" id="fechar">Fechar</button>
+    <div class="dialog-acoes">
+      <a class="btn btn-primary" href="meus-ingressos.html">Ver meus ingressos</a>
+      <button class="btn btn-sec" id="fechar" type="button">Fechar</button>
+    </div>
   </dialog>
   <script src="site.js"></script>
 </body>
